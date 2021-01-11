@@ -162,6 +162,11 @@ body{
     font-size: 18px;
     line-height: 1;
     font-family: 'Noto Sans HK', sans-serif;
+    cursor: pointer;
+}
+.login-button:hover{
+    background-color: #717171;
+    box-shadow: 10px 15px 35px -15px rgba(0,0,0,0.75);
 }
 .login-or {
     width: 100%;

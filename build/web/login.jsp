@@ -28,7 +28,7 @@
                     <div class="login-wrapper">
                         <h1 class="login-title">HanaShop</h1>
                         <h3 class="login-welcome">Welcome to HanaShop</h3>
-                        <form action="MainServlet" method="post">
+                        <form action="LoginServlet" method="post">
                             <label class="login-label">Users name or Email</label>
                             <input class="login-input username" type="text" name="txtUsernameOrEmail" />
                             <label class="login-label">Password</label>
