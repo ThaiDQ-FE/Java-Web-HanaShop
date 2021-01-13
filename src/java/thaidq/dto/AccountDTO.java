@@ -11,6 +11,7 @@ package thaidq.dto;
  * @author thaid
  */
 public class AccountDTO {
+    private String Id;
     private String Username;
     private String Password;
     private String Role;
@@ -19,12 +20,22 @@ public class AccountDTO {
     public AccountDTO() {
     }
 
-    public AccountDTO(String Username, String Password, String Role, String Fullname) {
+    public AccountDTO(String Id, String Username, String Password, String Role, String Fullname) {
+        this.Id = Id;
         this.Username = Username;
         this.Password = Password;
         this.Role = Role;
         this.Fullname = Fullname;
     }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+    
 
     public String getUsername() {
         return Username;

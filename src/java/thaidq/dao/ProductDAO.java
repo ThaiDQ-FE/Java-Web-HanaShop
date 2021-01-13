@@ -135,7 +135,7 @@ public class ProductDAO implements Serializable {
         try {
             conn = DBConnection.getConnection();
             if (conn != null) {
-                String sql = "Select Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
+                String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
                         + "Where Name Like ?";
                 preStm = conn.prepareStatement(sql);
@@ -145,15 +145,16 @@ public class ProductDAO implements Serializable {
                     if (list == null) {
                         list = new ArrayList<>();
                     }
-                    String name = rs.getString(1);
-                    String quantity = rs.getString(2);
-                    String description = rs.getString(3);
-                    String cate = rs.getString(4);
-                    String price = rs.getString(5);
-                    String date = rs.getString(6);
-                    String status = rs.getString(7);
-                    String image = rs.getString(8);
-                    ProductDTO dto = new ProductDTO(name, quantity, description, cate, price, status, date, image.substring(21));
+                    String id = rs.getString(1);
+                    String name = rs.getString(2);
+                    String quantity = rs.getString(3);
+                    String description = rs.getString(4);
+                    String cate = rs.getString(5);
+                    String price = rs.getString(6);
+                    String date = rs.getString(7);
+                    String status = rs.getString(8);
+                    String image = rs.getString(9);
+                    ProductDTO dto = new ProductDTO(id, name, quantity, description, cate, price, status, date, image.substring(21));
                     list.add(dto);
                 }
             }
@@ -171,7 +172,7 @@ public class ProductDAO implements Serializable {
         try {
             conn = DBConnection.getConnection();
             if (conn != null) {
-                String sql = "Select Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
+                String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
                         + "Where Price Like ?";
                 preStm = conn.prepareStatement(sql);
@@ -181,15 +182,16 @@ public class ProductDAO implements Serializable {
                     if (list == null) {
                         list = new ArrayList<>();
                     }
-                    String name = rs.getString(1);
-                    String quantity = rs.getString(2);
-                    String description = rs.getString(3);
-                    String cate = rs.getString(4);
-                    String price = rs.getString(5);
-                    String date = rs.getString(6);
-                    String status = rs.getString(7);
-                    String image = rs.getString(8);
-                    ProductDTO dto = new ProductDTO(name, quantity, description, cate, price, status, date, image.substring(21));
+                    String id = rs.getString(1);
+                    String name = rs.getString(2);
+                    String quantity = rs.getString(3);
+                    String description = rs.getString(4);
+                    String cate = rs.getString(5);
+                    String price = rs.getString(6);
+                    String date = rs.getString(7);
+                    String status = rs.getString(8);
+                    String image = rs.getString(9);
+                    ProductDTO dto = new ProductDTO(id, name, quantity, description, cate, price, status, date, image.substring(21));
                     list.add(dto);
                 }
             }
@@ -207,7 +209,7 @@ public class ProductDAO implements Serializable {
         try {
             conn = DBConnection.getConnection();
             if (conn != null) {
-                String sql = "Select Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
+                String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
                         + "Where Category Like ?";
                 preStm = conn.prepareStatement(sql);
@@ -217,15 +219,16 @@ public class ProductDAO implements Serializable {
                     if (list == null) {
                         list = new ArrayList<>();
                     }
-                    String name = rs.getString(1);
-                    String quantity = rs.getString(2);
-                    String description = rs.getString(3);
-                    String cate = rs.getString(4);
-                    String price = rs.getString(5);
-                    String date = rs.getString(6);
-                    String status = rs.getString(7);
-                    String image = rs.getString(8);
-                    ProductDTO dto = new ProductDTO(name, quantity, description, cate, price, status, date, image.substring(21));
+                    String id = rs.getString(1);
+                    String name = rs.getString(2);
+                    String quantity = rs.getString(3);
+                    String description = rs.getString(4);
+                    String cate = rs.getString(5);
+                    String price = rs.getString(6);
+                    String date = rs.getString(7);
+                    String status = rs.getString(8);
+                    String image = rs.getString(9);
+                    ProductDTO dto = new ProductDTO(id, name, quantity, description, cate, price, status, date, image.substring(21));
                     list.add(dto);
                 }
             }
@@ -250,7 +253,7 @@ public class ProductDAO implements Serializable {
 
         return check;
     }
-    
+
     public boolean recordActionHistory(HistoryDTO dto) throws Exception {
         boolean check = false;
         try {
@@ -267,8 +270,8 @@ public class ProductDAO implements Serializable {
         }
         return check;
     }
-    
-     public boolean recordActionUpdateHistory(HistoryDTO dto) throws Exception {
+
+    public boolean recordActionUpdateHistory(HistoryDTO dto) throws Exception {
         boolean check = false;
         try {
             String sql = "Insert into tblActionHistory(Fullname, Action, Date, ProductID) Values (?,?,?,?)";
@@ -284,7 +287,7 @@ public class ProductDAO implements Serializable {
         }
         return check;
     }
-    
+
     public List<ProductDTO> getOneProductInfo(String info) throws Exception {
         conn = null;
         preStm = null;
@@ -321,7 +324,7 @@ public class ProductDAO implements Serializable {
         }
         return list;
     }
-    
+
     public boolean updateNoImage(ProductDTO dto, String id) throws Exception {
         boolean check = false;
         try {
@@ -333,7 +336,7 @@ public class ProductDAO implements Serializable {
             preStm.setString(3, dto.getDescription());
             preStm.setString(4, dto.getCateID());
             preStm.setString(5, dto.getPrice());
-            preStm.setString(6,GetCurrentDate.getCurrentDate());
+            preStm.setString(6, GetCurrentDate.getCurrentDate());
             preStm.setString(7, id);
             check = preStm.executeUpdate() > 0;
         } finally {
@@ -341,7 +344,7 @@ public class ProductDAO implements Serializable {
         }
         return check;
     }
-    
+
     public boolean updateWithImage(ProductDTO dto, String id) throws Exception {
         boolean check = false;
         try {
@@ -353,7 +356,7 @@ public class ProductDAO implements Serializable {
             preStm.setString(3, dto.getDescription());
             preStm.setString(4, dto.getCateID());
             preStm.setString(5, dto.getPrice());
-            preStm.setString(6,GetCurrentDate.getCurrentDate());
+            preStm.setString(6, GetCurrentDate.getCurrentDate());
             preStm.setString(7, dto.getImage());
             preStm.setString(8, id);
             check = preStm.executeUpdate() > 0;

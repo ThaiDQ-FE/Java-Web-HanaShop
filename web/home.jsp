@@ -144,7 +144,10 @@
                                         </c:if>
                                         <c:if test="${accountRole == "USER" || accountRole == "GOOGLE"}">
                                             <div class="home-back-button">
-                                                <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
+                                                <form action="MainServlet" method="post">
+                                                    <input class="button-Like" type="submit" name="btnAction" value="Like"/>
+                                                    <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
+                                                </form>
                                             </div>
                                         </c:if>
                                     </div>

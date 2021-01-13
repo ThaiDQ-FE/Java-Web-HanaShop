@@ -13,8 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import thaidq.dao.AccountDAO;
 import thaidq.dto.GooglePojo;
 import thaidq.utils.GoogleUtils;
+import java.lang.Exception;
+import thaidq.dto.AccountDTO;
 
 /**
  *
@@ -40,15 +43,24 @@ public class LoginGoogleServlet extends HttpServlet {
         } else {
             String accessToken = GoogleUtils.getToken(code);
             GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-            request.setAttribute("id", googlePojo.getId());
-            request.setAttribute("name", googlePojo.getName());
-            request.setAttribute("email", googlePojo.getEmail());
-            RequestDispatcher dis = request.getRequestDispatcher("ProductServlet");
-            HttpSession session = request.getSession();
-            session.setAttribute("GOOGLE", googlePojo.getName());
-            session.setAttribute("ROLE", "GOOGLE");
-            System.out.println(session);
-            dis.forward(request, response);
+            try {
+                AccountDAO dao = new AccountDAO();
+                AccountDTO dto = new AccountDTO(googlePojo.getId(), "", "", "USER", googlePojo.getName());
+                if (dao.countId(googlePojo.getId()) == 0) {
+                    dao.createAccountGoogle(dto);
+                }
+                request.setAttribute("id", googlePojo.getId());
+                request.setAttribute("name", googlePojo.getName());
+                HttpSession session = request.getSession();
+                session.setAttribute("GOOGLE", googlePojo.getName());
+                session.setAttribute("ROLE", "GOOGLE");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                RequestDispatcher dis = request.getRequestDispatcher("ProductServlet");
+                dis.forward(request, response);
+            }
+
         }
 
     }
