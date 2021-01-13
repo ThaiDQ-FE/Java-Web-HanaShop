@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import thaidq.utils.FileUpload;
 
 /**
  *
@@ -56,9 +57,10 @@ public class CreateServlet extends HttpServlet {
         String price = request.getParameter("txtPrice");
         String date = request.getParameter("txtDate");
         String status = request.getParameter("txtStatus");
-        String file = uploadFile(request);
+        String file = FileUpload.uploadFile(request,"txtFile");
         ProductDTO dto = new ProductDTO(name, quantity, description, cate, price, status, date, file);
         ProductDAO dao = new ProductDAO();
+        System.out.println(dto.toString());
         try {
             dao.createProduct(dto);
 
@@ -67,37 +69,5 @@ public class CreateServlet extends HttpServlet {
         }
         RequestDispatcher dis = request.getRequestDispatcher("ProductServlet");
         dis.forward(request, response);
-    }
-
-    private String uploadFile(HttpServletRequest request) throws IOException, ServletException {
-        String fileName = "";
-        Part filePart = request.getPart("txtFile");
-        fileName = (String) getFileName(filePart);
-        String applicationPath = request.getServletContext().getRealPath("");
-        String basePath = applicationPath + "ImageDB" + File.separator;
-        basePath = basePath.replace("build", "");
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-        File outputFilePath = new File(basePath + fileName);
-        String a = basePath + fileName;
-        inputStream = filePart.getInputStream();
-        outputStream = new FileOutputStream(outputFilePath);
-        int read = 0;
-        final byte[] bytes = new byte[1024];
-        while ((read = inputStream.read(bytes)) != -1) {
-            outputStream.write(bytes, 0, read);
-        }
-        return a;
-    }
-
-    private String getFileName(Part part) {
-        final String partHeader = part.getHeader("content-disposition");
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-
-        return null;
     }
 }

@@ -8,6 +8,8 @@ package thaidq.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import thaidq.dto.AccountDTO;
 import thaidq.utils.DBConnection;
 
 /**
@@ -51,5 +53,28 @@ public class AccountDAO {
             closeConnection();
         }
         return role;
+    }
+    public AccountDTO checkLogins(String username, String password) throws SQLException, ClassNotFoundException, Exception {
+        try {
+            conn = DBConnection.getConnection();
+            if (conn != null) {
+                String sql = "Select Username, Password, Role, Fullname From tblAccount Where Username = ? and Password = ?";
+                preStm = conn.prepareStatement(sql);
+                preStm.setString(1, username);
+                preStm.setString(2, password);
+                rs = preStm.executeQuery();
+                if (rs.next()) {
+                    return new AccountDTO(
+                            rs.getString("Username"),
+                            rs.getString("Password"),
+                            rs.getString("Role"),
+                            rs.getString("Fullname")
+                    );
+                }
+            }
+        } finally {
+            closeConnection();
+        }
+        return null;
     }
 }

@@ -4,40 +4,7 @@
  * and open the template in the editor.
  */
 
-const contentSnow = `
-    <div class="snowflake">
-        ❅
-    </div>
-    <div class="snowflake">
-        ❅
-    </div>
-    <div class="snowflake">
-        ❆
-    </div>
-    <div class="snowflake">
-        ❄
-    </div>
-    <div class="snowflake">
-        ❅
-    </div>
-    <div class="snowflake">
-        ❆
-    </div>
-    <div class="snowflake">
-        ❄
-    </div>
-    <div class="snowflake">
-        ❅
-    </div>
-    <div class="snowflake">
-        ❆
-    </div>
-    <div class="snowflake">
-        ❄
-    </div>
-`;
 
-document.getElementById('snowflakes').innerHTML = contentSnow;
 
 const contentSlide = `
     <div class="slideshow-container">

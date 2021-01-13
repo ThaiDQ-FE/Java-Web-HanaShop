@@ -8,6 +8,7 @@ package thaidq.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,23 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author thaid
  */
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 10,
+        maxFileSize = 1024 * 1024 * 50,
+        maxRequestSize = 1024 * 1024 * 100
+)
 public class MainServlet extends HttpServlet {
+
+    private static final String ERROR = "invalid.jsp";
+    private static final String LOGIN = "LoginServlet";
+    private static final String LOGOUT = "LogoutServlet";
+    private static final String SEARCH = "SearchServlet";
+    private static final String DELETE = "DeleteServlet";
+    private static final String GET_INFO = "GetInfoServlet";
+    private static final String PRODUCT = "ProductServlet";
+    private static final String UPDATE_NO_IMG = "UpdateNoImgServlet";
+    private static final String UPDATE_WITH_IMG = "UpdateWithImageServlet";
+    private static final String CREATE = "CreateServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,17 +47,32 @@ public class MainServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MainServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MainServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = ERROR;
+        try {
+            String action = request.getParameter("btnAction");
+            if (action.equals("Sign in")) {
+                url = LOGIN;
+            } else if (action.equals("Logout")) {
+                url = LOGOUT;
+            } else if (action.equals("Search")) {
+                url = SEARCH;
+            } else if (action.equals("Delete")) {
+                url = DELETE;
+            } else if (action.equals("Info")) {
+                url = GET_INFO;
+            } else if (action.equals("Cancel")) {
+                url = PRODUCT;
+            } else if (action.equals("Update")) {
+                url = UPDATE_NO_IMG;
+            }else if (action.equals("Insert")) {
+                url = CREATE;
+            }else if (action.equals("Update With Image")) {
+                url = UPDATE_WITH_IMG;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

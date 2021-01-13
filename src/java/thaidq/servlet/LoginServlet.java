@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import thaidq.dao.AccountDAO;
+import thaidq.dto.AccountDTO;
 
 /**
  *
@@ -21,6 +22,9 @@ import thaidq.dao.AccountDAO;
  */
 public class LoginServlet extends HttpServlet {
 
+    
+    private final String INVALID_PAGE = "invalid.jsp";
+    private final String HOME_PAGE = "ProductServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,18 +37,30 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = INVALID_PAGE;
+        String username = request.getParameter("txtUsernameOrEmail");
+        String password = request.getParameter("txtPassword");
         try {
-            String username = request.getParameter("txtUsernameOrEmail");
-            String password = request.getParameter("txtPassword");
             AccountDAO dao = new AccountDAO();
+            AccountDTO dtoGet = dao.checkLogins(username, password);
             String role = dao.checkLogin(username, password);
             HttpSession session = request.getSession();
             System.out.println(role);
             session.setAttribute("ROLE", role);
             System.out.println(session);
-            RequestDispatcher dis = request.getRequestDispatcher("home.jsp");
-            dis.forward(request, response);
+            System.out.println(dtoGet);
+            if (dtoGet != null) {
+                url = HOME_PAGE;
+                session.setAttribute("ACCOUNT", dtoGet.getFullname());
+            } else {
+                url = INVALID_PAGE;
+                request.setAttribute("LOGIN_ERROR", "Email or Passowrd is not correct");
+            }
         } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            RequestDispatcher dis = request.getRequestDispatcher(url);
+            dis.forward(request, response);
         }
     }
 

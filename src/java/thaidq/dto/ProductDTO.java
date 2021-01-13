@@ -13,6 +13,7 @@ package thaidq.dto;
  */
 public class ProductDTO {
 
+    private String productId;
     private String productName;
     private String quantity;
     private String description;
@@ -25,6 +26,19 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
+    public ProductDTO(String productId, String productName, String quantity, String description, String cateID, String price, String status, String date, String image) {
+        this.productId = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.description = description;
+        this.cateID = cateID;
+        this.price = price;
+        this.status = status;
+        this.date = date;
+        this.image = image;
+    }
+
+
     public ProductDTO(String productName, String quantity, String description, String cateID, String price, String status, String date, String image) {
         this.productName = productName;
         this.quantity = quantity;
@@ -35,6 +49,16 @@ public class ProductDTO {
         this.date = date;
         this.image = image;
     }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+    
+    
 
     public String getProductName() {
         return productName;
@@ -102,8 +126,10 @@ public class ProductDTO {
 
     @Override
     public String toString() {
-        return "ProductDTO{" + "productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", status=" + status + ", date=" + date + ", image=" + image + '}';
+        return "ProductDTO{" + "productId=" + productId + ", productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", status=" + status + ", date=" + date + ", image=" + image + '}';
     }
+
+    
 
     
 
