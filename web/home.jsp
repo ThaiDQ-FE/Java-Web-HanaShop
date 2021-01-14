@@ -5,6 +5,7 @@
 --%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="thaidq.dto.ProductDTO"%>
+<%@page import="thaidq.dto.ProductTopDTO" %>
 <%@page import="java.util.List"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
@@ -101,6 +102,66 @@
         </div>
         <div class="home-container">
             <div class="home-wrapper">
+                <c:if test="${accountRole != "ADMIN"}">
+
+                    <h1>Top 3 Like Product</h1>
+
+                    <%
+                        List<ProductTopDTO> top =  (List<ProductTopDTO>) request.getAttribute("TOP_3_PRODUCT");
+                        if (top != null){
+                            if(top.size() > 0) {
+                    %>
+                    <div class="home-list">
+                        <ul class="home-ul">
+                            <%
+                        for (int i = 0; i < top.size(); i++) {
+                                ProductTopDTO dtos = top.get(i);
+                            %>
+
+
+                            <li class="home-li">
+                                <div class="home-item">
+                                    <div class="home-li-inner">
+                                        <div class="home-li-front">
+                                            <img class="home-item-img" id="test<%= (i + 1)%>" src="<%= dtos.getImage()%>">
+                                        </div>
+                                        <div class="home-li-back">
+                                            <div class="home-back-wrapper">
+                                                <p id="info-name" class="home-item-info">Name: <%= dtos.getProductName()%></p>
+                                                <div class="description">
+                                                    <p id="info-des" class="home-item-info ">Description: <%= dtos.getDescription()%></p>
+                                                    <span class="tooltip-description"><%= dtos.getDescription()%></span>
+                                                </div>
+                                                <p id="info-price" class="home-item-info">Price: <%= dtos.getPrice()%></p>
+                                                <div class="date">
+                                                    <p class="home-item-info">Create date: <%= dtos.getDate()%></p>
+                                                    <span class="tooltip-date"><%= dtos.getDate()%></span>
+                                                </div>
+                                                <p id="info-cate" class="home-item-info">Category: <%= dtos.getCateID()%></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                            <%
+                                    }
+                            %>
+
+                            <%          
+                                } else {
+                            %>
+                            <%
+                                    }
+                                }
+                            %>
+                        </ul>
+                    </div>
+                </c:if>
+            </div>
+            <h1 style="text-align: center">All Product</h1>
+            <div class="home-wrapper">
                 <%
                     List<ProductDTO> result = (List<ProductDTO>) request.getAttribute("ALL_PRODUCT");
                     if (result != null) {
@@ -145,9 +206,13 @@
                                         <c:if test="${accountRole == "USER" || accountRole == "GOOGLE"}">
                                             <div class="home-back-button">
                                                 <form action="MainServlet" method="post">
+                                                    <input style="display: none" type="text" name="txtAccountID"  value="${sessionScope.ACCOUNT_ID}"/>
+                                                    <input style="display: none" type="text" name="txtProductId" value="<%= dto.getProductId()%>"/>
                                                     <input class="button-Like" type="submit" name="btnAction" value="Like"/>
-                                                    <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
+                                                    <input class="button-Dislike" type="submit" name="btnAction" value="Dislike"/>
                                                 </form>
+                                                <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
+
                                             </div>
                                         </c:if>
                                     </div>

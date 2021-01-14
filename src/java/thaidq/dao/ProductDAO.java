@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import thaidq.dto.HistoryDTO;
 import thaidq.dto.ProductDTO;
+import thaidq.dto.ProductTopDTO;
 import thaidq.utils.DBConnection;
 import thaidq.utils.GetCurrentDate;
 
@@ -127,7 +128,7 @@ public class ProductDAO implements Serializable {
         return 0;
     }
 
-    public List<ProductDTO> searchProductByName(String searchValue) throws Exception {
+    public List<ProductDTO> searchProductByName(String searchValue, String page) throws Exception {
         List<ProductDTO> list = null;
         conn = null;
         preStm = null;
@@ -137,7 +138,9 @@ public class ProductDAO implements Serializable {
             if (conn != null) {
                 String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
-                        + "Where Name Like ?";
+                        + "Where Name Like ? \n"
+                        + "order by DateOfCreate desc \n"
+                        + "OFFSET " + ((Integer.parseInt(page) - 1) * 20) + "ROWS FETCH NEXT 20 ROWS ONLY";
                 preStm = conn.prepareStatement(sql);
                 preStm.setString(1, "%" + searchValue + "%");
                 rs = preStm.executeQuery();
@@ -366,4 +369,41 @@ public class ProductDAO implements Serializable {
         return check;
     }
 
+    public List<ProductTopDTO> getTop3Product() throws Exception {
+        conn = null;
+        preStm = null;
+        rs = null;
+        List<ProductTopDTO> list = null;
+        try {
+            conn = DBConnection.getConnection();
+            if (conn != null) {
+                String sql = "SELECT top 3 e.ProductID , p.Name ,p.Quantity ,p.Description ,p.Category ,p.Price ,p.DateOfCreate ,p.Image, count(e.ProductID) as Tong \n"
+                        + "FROM tblEmotion as e, tblProduct as p \n"
+                        + "Where e.ProductID = p.ProductID and p.Status = 'Active' \n"
+                        + "GROUP by e.ProductID,p.Name,p.Category,p.DateOfCreate,p.Description,p.Image,p.Price,p.Quantity \n"
+                        + "Order by Tong desc";
+                preStm = conn.prepareStatement(sql);
+                rs = preStm.executeQuery();
+                while (rs.next()) {
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    }
+                    String id = rs.getString(1);
+                    String name = rs.getString(2);
+                    String quantity = rs.getString(3);
+                    String description = rs.getString(4);
+                    String cate = rs.getString(5);
+                    String price = rs.getString(6);
+                    String date = rs.getString(7);
+                    String image = rs.getString(8);
+                    String sort = rs.getString(9);
+                    ProductTopDTO dto = new ProductTopDTO(id, name, quantity, description, cate, price, date, image.substring(21),sort);
+                    list.add(dto);
+                }
+            }
+        } finally {
+            closeConnection();
+        }
+        return list;
+    }
 }

@@ -44,6 +44,10 @@
         <servlet-name>UpdateWithImageServlet</servlet-name>
         <servlet-class>thaidq.servlet.UpdateWithImageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EmotionServlet</servlet-name>
+        <servlet-class>thaidq.servlet.EmotionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/MainServlet</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>UpdateWithImageServlet</servlet-name>
         <url-pattern>/UpdateWithImageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmotionServlet</servlet-name>
+        <url-pattern>/EmotionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

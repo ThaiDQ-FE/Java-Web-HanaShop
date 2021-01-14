@@ -170,8 +170,8 @@
         </div>
         <footer>
             <div class="home-paging">
-                <c:forEach begin="1" end="${PAGINATION}" varStatus="counter">
-                    <c:url var="page" value="ProductServlet">
+                <c:forEach begin="1" end="${SEARCH_RESULT_PAGINATION}" varStatus="counter">
+                    <c:url var="page" value="SearchServlet">
                         <c:param name="page" value="${counter.count}"/>
                     </c:url>
                     <c:choose>
@@ -184,16 +184,16 @@
                         <c:when test="${counter.count == 3}">
                             <a href="${page}"><c:out value="${counter.count}"/></a> &nbsp;
                         </c:when>
-                        <c:when test="${counter.count == CURRENT_PAGE}">
+                        <c:when test="${counter.count == SEARCH_RESULT_CURRENT_PAGE}">
                             <a href="${page}"><c:out value="${counter.count}"/></a> &nbsp;
                         </c:when>
-                        <c:when test="${counter.count == (PAGINATION - 2)}">
+                        <c:when test="${counter.count == (SEARCH_RESULT_PAGINATION - 2)}">
                             <a href="${page}"><c:out value="${counter.count}"/></a> &nbsp;
                         </c:when>
-                        <c:when test="${counter.count == (PAGINATION - 1)}">
+                        <c:when test="${counter.count == (SEARCH_RESULT_PAGINATION - 1)}">
                             <a href="${page}"><c:out value="${counter.count}"/></a> &nbsp;
                         </c:when>
-                        <c:when test="${counter.count == (PAGINATION)}">
+                        <c:when test="${counter.count == (SEARCH_RESULT_PAGINATION)}">
                             <a href="${page}"><c:out value="${counter.count}"/></a> &nbsp;
                         </c:when>
                         <c:otherwise>

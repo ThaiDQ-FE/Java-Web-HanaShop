@@ -40,14 +40,25 @@ public class SearchServlet extends HttpServlet {
 
         String searchOption = request.getParameter("searchOption");
         String searchValue = request.getParameter("searchValue");
-        System.out.println(searchOption);
-        System.out.println(searchValue);
+        String page = request.getParameter("page") != null ? request.getParameter("page") : "1";
+        if (Integer.parseInt(page) < 1) {
+            page = "1";
+        }
         String url = SEARCH_PAGE;
         try {
             ProductDAO dao = new ProductDAO();
             if (searchOption.equals("Name")) {
-                List<ProductDTO> dto = dao.searchProductByName(searchValue);
+                List<ProductDTO> dto = dao.searchProductByName(searchValue, page);
+                int totalRecord = dao.countProduct();
+                int totalPage = 1;
+                if (totalRecord % 20 == 0) {
+                    totalPage = totalRecord / 20;
+                } else {
+                    totalPage = (totalRecord / 20) + 1;
+                }
                 request.setAttribute("SEARCH_RESULT", dto);
+                request.setAttribute("SEARCH_RESULT_PAGINATION", totalPage);
+                request.setAttribute("SEARCH_RESULT_CURRENT_PAGE", page);
                 System.out.println(dto);
             } else if (searchOption.equals("Price")) {
                 List<ProductDTO> dto = dao.searchProductByPrice(searchValue);

@@ -80,22 +80,6 @@ public class AccountDAO {
         return null;
     }
 
-//    public String checkId(String idGoogle) throws Exception {
-//        String id = "failed";
-//        try {
-//            String sql = "Select Role From tblAccount Where Id = ?";
-//            conn = DBConnection.getConnection();
-//            preStm = conn.prepareStatement(sql);
-//            preStm.setString(1, idGoogle);
-//            rs = preStm.executeQuery();
-//            if (rs.next()) {
-//                id = rs.getString("Id");
-//            }
-//        } finally {
-//            closeConnection();
-//        }
-//        return id;
-//    }
     public boolean createAccountGoogle(AccountDTO dto) throws Exception {
         boolean check = false;
         try {
@@ -136,6 +120,23 @@ public class AccountDAO {
             closeConnection();
         }
         return 0;
+    }
+    
+    public String getAccountId(String Id) throws Exception{
+        String accountId = "";
+        try {
+            String sql = "Select AccountId From tblAccount Where Id = ?";
+            conn = DBConnection.getConnection();
+            preStm = conn.prepareStatement(sql);
+            preStm.setString(1, Id);
+            rs = preStm.executeQuery();
+            if (rs.next()) {
+                accountId = rs.getString("AccountId");
+            }
+        } finally {
+            closeConnection();
+        }
+        return accountId;
     }
     
 }

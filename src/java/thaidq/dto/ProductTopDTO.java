@@ -5,65 +5,34 @@
  */
 package thaidq.dto;
 
-
-
 /**
  *
  * @author thaid
  */
-public class ProductDTO {
-
+public class ProductTopDTO {
     private String productId;
     private String productName;
     private String quantity;
     private String description;
     private String cateID;
     private String price;
-    private String status;
     private String date;
     private String image;
     private String sort;
 
-    public ProductDTO() {
+    public ProductTopDTO() {
     }
 
-    public ProductDTO(String productId, String productName, String quantity, String description, String cateID, String price, String status, String date, String image, String sort) {
+    public ProductTopDTO(String productId, String productName, String quantity, String description, String cateID, String price, String date, String image, String sort) {
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
         this.description = description;
         this.cateID = cateID;
         this.price = price;
-        this.status = status;
         this.date = date;
         this.image = image;
         this.sort = sort;
-    }
-    
-    
-
-    public ProductDTO(String productId, String productName, String quantity, String description, String cateID, String price, String status, String date, String image) {
-        this.productId = productId;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.description = description;
-        this.cateID = cateID;
-        this.price = price;
-        this.status = status;
-        this.date = date;
-        this.image = image;
-    }
-
-
-    public ProductDTO(String productName, String quantity, String description, String cateID, String price, String status, String date, String image) {
-        this.productName = productName;
-        this.quantity = quantity;
-        this.description = description;
-        this.cateID = cateID;
-        this.price = price;
-        this.status = status;
-        this.date = date;
-        this.image = image;
     }
 
     public String getProductId() {
@@ -73,8 +42,6 @@ public class ProductDTO {
     public void setProductId(String productId) {
         this.productId = productId;
     }
-    
-    
 
     public String getProductName() {
         return productName;
@@ -116,14 +83,6 @@ public class ProductDTO {
         this.price = price;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getDate() {
         return date;
     }
@@ -140,14 +99,18 @@ public class ProductDTO {
         this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "ProductDTO{" + "productId=" + productId + ", productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", status=" + status + ", date=" + date + ", image=" + image + '}';
+    public String getSort() {
+        return sort;
     }
 
-    
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
+    @Override
+    public String toString() {
+        return "ProductTopDTO{" + "productId=" + productId + ", productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", date=" + date + ", image=" + image + ", sort=" + sort + '}';
+    }
     
-
     
 }

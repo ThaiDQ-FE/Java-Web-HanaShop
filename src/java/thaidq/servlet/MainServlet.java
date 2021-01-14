@@ -34,6 +34,7 @@ public class MainServlet extends HttpServlet {
     private static final String UPDATE_NO_IMG = "UpdateNoImgServlet";
     private static final String UPDATE_WITH_IMG = "UpdateWithImageServlet";
     private static final String CREATE = "CreateServlet";
+    private static final String EMOTION = "EmotionServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,7 +69,11 @@ public class MainServlet extends HttpServlet {
                 url = CREATE;
             }else if (action.equals("Update With Image")) {
                 url = UPDATE_WITH_IMG;
-            }
+            }else if (action.equals("Like")) {
+                url = EMOTION;
+            }else if (action.equals("Dislike")) {
+                url = EMOTION;
+            } 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

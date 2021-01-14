@@ -47,11 +47,10 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             System.out.println(role);
             session.setAttribute("ROLE", role);
-            System.out.println(session);
-            System.out.println(dtoGet);
             if (dtoGet != null) {
                 url = HOME_PAGE;
                 session.setAttribute("ACCOUNT", dtoGet.getFullname());
+                session.setAttribute("ACCOUNT_ID", dtoGet.getId());
             } else {
                 url = INVALID_PAGE;
                 request.setAttribute("LOGIN_ERROR", "Email or Passowrd is not correct");
