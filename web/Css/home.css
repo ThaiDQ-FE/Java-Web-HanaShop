@@ -105,6 +105,14 @@ body{
 .home-cart{
     width: 10%;
     height: 100%;
+    margin-top: 12px;
+    font-size: 26px;
+}
+.home-cart a{
+    color: black;
+}
+.home-car:hover a{
+    color: #888
 }
 /**/
 .home-login{

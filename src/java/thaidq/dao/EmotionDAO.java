@@ -8,6 +8,8 @@ package thaidq.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import thaidq.dto.EmotionDTO;
 import thaidq.utils.DBConnection;
 
@@ -48,7 +50,7 @@ public class EmotionDAO {
         }
         return check;
     }
-    
+
     public int countAccountId(String accountId) throws Exception {
         conn = null;
         preStm = null;
@@ -72,8 +74,8 @@ public class EmotionDAO {
         }
         return 0;
     }
-    
-    public int countProductId(String productId) throws Exception{
+
+    public int countProductId(String productId) throws Exception {
         conn = null;
         preStm = null;
         rs = null;
@@ -96,8 +98,8 @@ public class EmotionDAO {
         }
         return 0;
     }
-    
-    public int checkIsCreate(String productId, String accountId) throws Exception{
+
+    public int checkIsCreate(String productId, String accountId) throws Exception {
         conn = null;
         preStm = null;
         rs = null;
@@ -121,10 +123,8 @@ public class EmotionDAO {
         }
         return 0;
     }
-    
-     
-     
-     public boolean updateEmotionToDislike(String accountId, String productId) throws Exception {
+
+    public boolean updateEmotionToDislike(String accountId, String productId) throws Exception {
         boolean check = false;
         try {
             String sql = "Update tblEmotion set Emotion = ? where AccountId = ? and ProductID = ?";
@@ -140,13 +140,13 @@ public class EmotionDAO {
 
         return check;
     }
-     
-    public String getEmotion(String accountId, String productId) throws Exception{
+
+    public String getEmotion(String accountId, String productId) throws Exception {
         String emotion = "";
         try {
             String sql = "SELECT e.Emotion \n"
-                        + "From tblProduct as p, tblEmotion as e, tblAccount as a \n"
-                        + "Where p.ProductID = ? and e.ProductID = p.ProductID and a.AccountId = e.AccountId and e.AccountId = ?";
+                    + "From tblProduct as p, tblEmotion as e, tblAccount as a \n"
+                    + "Where p.ProductID = ? and e.ProductID = p.ProductID and a.AccountId = e.AccountId and e.AccountId = ?";
             conn = DBConnection.getConnection();
             preStm = conn.prepareStatement(sql);
             preStm.setString(1, productId);
@@ -160,8 +160,8 @@ public class EmotionDAO {
         }
         return emotion;
     }
-     
-     public boolean updateEmotionToLike(String accountId, String productId) throws Exception {
+
+    public boolean updateEmotionToLike(String accountId, String productId) throws Exception {
         boolean check = false;
         try {
             String sql = "Update tblEmotion set Emotion = ? where AccountId = ? and ProductID = ?";
@@ -177,6 +177,5 @@ public class EmotionDAO {
 
         return check;
     }
-     
-     
+
 }

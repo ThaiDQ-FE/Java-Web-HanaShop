@@ -1,0 +1,112 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 16, 2021, 3:21:39 AM
+    Author     : thaid
+*/
+
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-image: url(../Images/398864.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.view-controller{
+    width: 60%;
+    height: 500px;
+    background-color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    padding: 20px;
+    background: linear-gradient(to right, #1c92d2, #f2fcfe);
+}
+.view-title{
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.cart-info-wrapper{
+    width: 100%;
+    height: 58%;
+    max-height: 58%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+table{
+    border-collapse: collapse;
+    background: #fff;
+    
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+.tb-head{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.tb-footer{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: white;
+}
+thead{
+    position: relative;
+    color: white;
+}
+.tr-thead, .tr-footer{
+    height: 60px;
+    background: #36304a;
+}
+.tr-footer{
+    background: white;
+}
+tbody{
+    text-align: center;
+}
+.tr-tbody{
+    height: 50px;
+    font-family: OpenSans-Regular;
+    font-size: 15px;
+    color: gray;
+    line-height: 1.2;
+    font-weight: unset;
+}
+.td-name{
+    padding: 0 40px;
+}
+.td-price{
+    padding: 0 20px;
+}
+.td-quantity input{
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #888;
+}
+.td-delete input{
+    background-color: indianred;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+.td-update input{
+    background-color: greenyellow;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+}

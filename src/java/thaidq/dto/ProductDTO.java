@@ -23,9 +23,20 @@ public class ProductDTO {
     private String date;
     private String image;
     private String sort;
+    private int quantityCart;
 
     public ProductDTO() {
     }
+
+    public ProductDTO(String productId, String productName, String quantity, String price, String image) {
+        this.productId = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+        this.image = image;
+    }
+    
+    
 
     public ProductDTO(String productId, String productName, String quantity, String description, String cateID, String price, String status, String date, String image, String sort) {
         this.productId = productId;
@@ -72,6 +83,22 @@ public class ProductDTO {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public int getQuantityCart() {
+        return quantityCart;
+    }
+
+    public void setQuantityCart(int quantityCart) {
+        this.quantityCart = quantityCart;
     }
     
     
@@ -142,8 +169,10 @@ public class ProductDTO {
 
     @Override
     public String toString() {
-        return "ProductDTO{" + "productId=" + productId + ", productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", status=" + status + ", date=" + date + ", image=" + image + '}';
+        return "ProductDTO{" + "productId=" + productId + ", productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", status=" + status + ", date=" + date + ", image=" + image + ", sort=" + sort + ", quantityCart=" + quantityCart + '}';
     }
+
+    
 
     
 

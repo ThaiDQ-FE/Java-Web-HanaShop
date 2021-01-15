@@ -13,7 +13,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import thaidq.dao.AccountDAO;
+import thaidq.dao.EmotionDAO;
 import thaidq.dao.ProductDAO;
+import thaidq.dto.EmotionDTO;
 import thaidq.dto.ProductDTO;
 import thaidq.dto.ProductTopDTO;
 
@@ -47,7 +50,6 @@ public class ProductServlet extends HttpServlet {
             ProductDAO dao = new ProductDAO();
             List<ProductDTO> dto = dao.getAllProduct(page);
             List<ProductTopDTO> dtos = dao.getTop3Product();
-            System.out.println(dtos);
             int totalRecord = dao.countProduct();
             int totalPage = 1;
             if (totalRecord % 20 == 0) {

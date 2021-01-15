@@ -379,7 +379,7 @@ public class ProductDAO implements Serializable {
             if (conn != null) {
                 String sql = "SELECT top 3 e.ProductID , p.Name ,p.Quantity ,p.Description ,p.Category ,p.Price ,p.DateOfCreate ,p.Image, count(e.ProductID) as Tong \n"
                         + "FROM tblEmotion as e, tblProduct as p \n"
-                        + "Where e.ProductID = p.ProductID and p.Status = 'Active' \n"
+                        + "Where e.ProductID = p.ProductID and p.Status = 'Active' and e.Emotion = 'Like' \n"
                         + "GROUP by e.ProductID,p.Name,p.Category,p.DateOfCreate,p.Description,p.Image,p.Price,p.Quantity \n"
                         + "Order by Tong desc";
                 preStm = conn.prepareStatement(sql);
@@ -397,7 +397,7 @@ public class ProductDAO implements Serializable {
                     String date = rs.getString(7);
                     String image = rs.getString(8);
                     String sort = rs.getString(9);
-                    ProductTopDTO dto = new ProductTopDTO(id, name, quantity, description, cate, price, date, image.substring(21),sort);
+                    ProductTopDTO dto = new ProductTopDTO(id, name, quantity, description, cate, price, date, image.substring(21), sort);
                     list.add(dto);
                 }
             }
@@ -405,5 +405,26 @@ public class ProductDAO implements Serializable {
             closeConnection();
         }
         return list;
+    }
+
+    public ProductDTO findByPK(String id) throws Exception {
+        ProductDTO dto = null;
+        try {
+            String sql = "Select Name, Price, Quantity, Image From tblProduct Where ProductID = ?";
+            conn = DBConnection.getConnection();
+            preStm = conn.prepareStatement(sql);
+            preStm.setString(1, id);
+            rs = preStm.executeQuery();
+            if (rs.next()) {
+                String name = rs.getString("Name");
+                String price = rs.getString("Price");
+                String quantity = rs.getString("Quantity");
+                String image = rs.getString("Image");
+                dto = new ProductDTO(id, name, price, quantity, image.substring(21));
+            }
+        } finally {
+            closeConnection();
+        }
+        return dto;
     }
 }

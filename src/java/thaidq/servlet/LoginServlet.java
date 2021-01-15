@@ -45,7 +45,6 @@ public class LoginServlet extends HttpServlet {
             AccountDTO dtoGet = dao.checkLogins(username, password);
             String role = dao.checkLogin(username, password);
             HttpSession session = request.getSession();
-            System.out.println(role);
             session.setAttribute("ROLE", role);
             if (dtoGet != null) {
                 url = HOME_PAGE;

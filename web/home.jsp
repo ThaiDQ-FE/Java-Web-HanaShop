@@ -28,6 +28,7 @@
         <title>Home</title>
     </head>
     <body>
+
         <div id="snowflakes" aria-hidden="true">
         </div>
         <c:set var="accountRole" value="${sessionScope.ROLE}"/>
@@ -66,7 +67,9 @@
                 </div>
             </div>
             <div class="home-cart">
-                <p>đây là cart</p>
+                <c:if test="${accountRole != "ADMIN"}">
+                    <a href="MainServlet?btnAction=ViewCart"><i class="fa fa-shopping-cart"></i>View </a>
+                </c:if>
             </div>
             <div class="home-login">
                 <div class="home-welcome">
@@ -103,9 +106,7 @@
         <div class="home-container">
             <div class="home-wrapper">
                 <c:if test="${accountRole != "ADMIN"}">
-
                     <h1>Top 3 Like Product</h1>
-
                     <%
                         List<ProductTopDTO> top =  (List<ProductTopDTO>) request.getAttribute("TOP_3_PRODUCT");
                         if (top != null){
@@ -161,6 +162,7 @@
                 </c:if>
             </div>
             <h1 style="text-align: center">All Product</h1>
+
             <div class="home-wrapper">
                 <%
                     List<ProductDTO> result = (List<ProductDTO>) request.getAttribute("ALL_PRODUCT");
@@ -173,6 +175,7 @@
                             for (int i = 0; i < result.size(); i++) {
                                 ProductDTO dto = result.get(i);
                         %>
+
                         <li class="home-li">
                             <div class="home-item">
                                 <div class="home-li-inner">
@@ -210,9 +213,8 @@
                                                     <input style="display: none" type="text" name="txtProductId" value="<%= dto.getProductId()%>"/>
                                                     <input class="button-Like" type="submit" name="btnAction" value="Like"/>
                                                     <input class="button-Dislike" type="submit" name="btnAction" value="Dislike"/>
+                                                    <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
                                                 </form>
-                                                <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
-
                                             </div>
                                         </c:if>
                                     </div>

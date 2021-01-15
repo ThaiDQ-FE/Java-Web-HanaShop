@@ -35,6 +35,10 @@ public class MainServlet extends HttpServlet {
     private static final String UPDATE_WITH_IMG = "UpdateWithImageServlet";
     private static final String CREATE = "CreateServlet";
     private static final String EMOTION = "EmotionServlet";
+    private static final String ADD_CART = "AddToCartServlet";
+    private static final String VIEW_CART = "ViewCartServlet";
+    private static final String REMOVE_ITEM_IN_CART = "RemoveItemInCartServlet";
+    private static final String UPDATE_ITEM_IN_CART = "UpdateQuantityInCartServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,15 +69,23 @@ public class MainServlet extends HttpServlet {
                 url = PRODUCT;
             } else if (action.equals("Update")) {
                 url = UPDATE_NO_IMG;
-            }else if (action.equals("Insert")) {
+            } else if (action.equals("Insert")) {
                 url = CREATE;
-            }else if (action.equals("Update With Image")) {
+            } else if (action.equals("Update With Image")) {
                 url = UPDATE_WITH_IMG;
-            }else if (action.equals("Like")) {
+            } else if (action.equals("Like")) {
                 url = EMOTION;
-            }else if (action.equals("Dislike")) {
+            } else if (action.equals("Dislike")) {
                 url = EMOTION;
-            } 
+            } else if (action.equals("Add Cart")) {
+                url = ADD_CART;
+            }else if (action.equals("ViewCart")) {
+                url = VIEW_CART;
+            }else if (action.equals("Remove")) {
+                url = REMOVE_ITEM_IN_CART;
+            }else if (action.equals("Update !")) {
+                url = UPDATE_ITEM_IN_CART;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

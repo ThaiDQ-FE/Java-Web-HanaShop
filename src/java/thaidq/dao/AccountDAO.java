@@ -97,7 +97,7 @@ public class AccountDAO {
         }
         return check;
     }
-    
+
     public int countId(String googleId) throws Exception {
         conn = null;
         preStm = null;
@@ -121,8 +121,8 @@ public class AccountDAO {
         }
         return 0;
     }
-    
-    public String getAccountId(String Id) throws Exception{
+
+    public String getAccountId(String Id) throws Exception {
         String accountId = "";
         try {
             String sql = "Select AccountId From tblAccount Where Id = ?";
@@ -138,5 +138,5 @@ public class AccountDAO {
         }
         return accountId;
     }
-    
+
 }
