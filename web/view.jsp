@@ -66,7 +66,7 @@
                                 </td>
                                 <td class="td-delete">
                                     <input type="hidden" name="txtProductID" value="<%= dtos.getProductId()%>"/>
-                                    <input type="submit" name="btnAction" value="Remove"/>
+                                    <input onclick="return confirm('Are you sure you want to delete this Product!?')" type="submit" name="btnAction" value="Remove"/>
                                 </td>
                                 <td class="td-update">
                                     <input type="submit" name="btnAction" value="Update !"/>
@@ -96,11 +96,7 @@
                         <th style="padding-left: 20px; color: black"><c:out value="Total : $${sessionScope.cart.total}"/></th>
                         <th style="text-align: right;visibility: hidden">Quantity</th>
                         <th style="padding-right: 10px; text-align: right;visibility: hidden">Remove</th>
-                        <th style="padding-right: 5px">
-                            <form action="MainServlet" method="POST">
-                                 <input type="submit" name="btnAction" value="Check out"/>
-                            </form>
-                        </th>
+                        <th style="padding-right: 5px; color: black"><a href="CheckOutServlet">Check out - - ></a></th>
                     </tr>
                 </thead>
             </table>

@@ -43,6 +43,7 @@ public class LoginServlet extends HttpServlet {
         try {
             AccountDAO dao = new AccountDAO();
             AccountDTO dtoGet = dao.checkLogins(username, password);
+            String id = dao.getAccountId(dtoGet.getId());
             String role = dao.checkLogin(username, password);
             HttpSession session = request.getSession();
             session.setAttribute("ROLE", role);
@@ -50,6 +51,7 @@ public class LoginServlet extends HttpServlet {
                 url = HOME_PAGE;
                 session.setAttribute("ACCOUNT", dtoGet.getFullname());
                 session.setAttribute("ACCOUNT_ID", dtoGet.getId());
+                session.setAttribute("ID_ACCOUNT", id);
             } else {
                 url = INVALID_PAGE;
                 request.setAttribute("LOGIN_ERROR", "Email or Passowrd is not correct");

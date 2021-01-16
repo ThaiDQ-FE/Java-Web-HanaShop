@@ -139,4 +139,21 @@ public class AccountDAO {
         return accountId;
     }
 
+    public String getFullname(String id) throws Exception {
+        String fullname = "";
+        try {
+            String sql = "Select Fullname From tblAccount Where Id = ?";
+            conn = DBConnection.getConnection();
+            preStm = conn.prepareStatement(sql);
+            preStm.setString(1, id);
+            rs = preStm.executeQuery();
+            if (rs.next()) {
+                fullname = rs.getString("Fullname");
+            }
+        } finally {
+            closeConnection();
+        }
+        return fullname;
+    }
+
 }

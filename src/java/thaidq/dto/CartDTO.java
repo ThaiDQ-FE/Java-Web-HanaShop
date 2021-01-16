@@ -34,6 +34,15 @@ public class CartDTO implements Serializable{
     public HashMap<String, Integer> getShoppingCart() {
         return shoppingCart;
     }
+
+    public void setShoppingCart(HashMap<String, Integer> shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+    
+    public void resetCart(){
+        this.shoppingCart.clear();
+    }
+    
     
     public void addToCart(String id){
         int quantity = 1;

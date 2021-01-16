@@ -7,19 +7,20 @@ package thaidq.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import thaidq.dao.AccountDAO;
+import thaidq.dao.OrderDAO;
 import thaidq.dto.CartDTO;
 
 /**
  *
  * @author thaid
  */
-public class AddToCartServlet extends HttpServlet {
+public class CheckOutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,23 +35,43 @@ public class AddToCartServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            String id = request.getParameter("txtProductId");
-            AccountDAO dao = new AccountDAO();
-            String accountid = request.getParameter("txtAccountID");
-            String name = dao.getFullname(accountid);
             HttpSession session = request.getSession();
             CartDTO shoppingCart = (CartDTO) session.getAttribute("cart");
-            if (shoppingCart == null) {
-                shoppingCart = new CartDTO(name);
+            
+            System.out.println(session.getAttribute("ID_ACCOUNT"));
+
+            String orderId = "OD";
+
+            int total = shoppingCart.getTotal();
+            String date = request.getParameter("txtDate");
+            String status = "waiting";
+
+            orderId += "-" + session.getAttribute("NAME") + "-";
+
+            OrderDAO dao = new OrderDAO();
+            System.out.println(session.getAttribute("NAME"));
+            String lastID = dao.findByLastOrderID((String) session.getAttribute("ID_ACCOUNT"));
+            System.out.println();
+            
+            if (lastID == null) {
+                orderId += 1; //OD-TuongNT-1
+            } else {
+                String[] tmp = lastID.split("-");
+                orderId += (Integer.parseInt(tmp[2]) + 1);
             }
-            shoppingCart.addToCart(id);
-            System.out.println(shoppingCart);
-            session.setAttribute("cart", shoppingCart);
-            session.setAttribute("NAME", name);
+            if (dao.createOrder(orderId, Integer.parseInt((String) session.getAttribute("ID_ACCOUNT")), date, total, status)) {
+                int count = 1;
+                for (String productID : shoppingCart.getShoppingCart().keySet()) {
+                    int quantity = shoppingCart.getShoppingCart().get(productID);
+                    String detailID = (orderId + "-" + count);
+                    dao.createOrderDetail(detailID, orderId, quantity, productID);
+                    count++;
+                }
+            }
+            shoppingCart.resetCart();
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
-            response.sendRedirect("ProductServlet");
         }
     }
 
