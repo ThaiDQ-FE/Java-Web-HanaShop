@@ -7,6 +7,7 @@ package thaidq.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import thaidq.dao.OrderDAO;
+import thaidq.dao.ProductDAO;
+import thaidq.dao.SubProductDAO;
 import thaidq.dto.CartDTO;
+import thaidq.dto.SubProductDTO;
 
 /**
  *
@@ -37,8 +41,6 @@ public class CheckOutServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             CartDTO shoppingCart = (CartDTO) session.getAttribute("cart");
-            
-            System.out.println(session.getAttribute("ID_ACCOUNT"));
 
             String orderId = "OD";
 
@@ -49,10 +51,10 @@ public class CheckOutServlet extends HttpServlet {
             orderId += "-" + session.getAttribute("NAME") + "-";
 
             OrderDAO dao = new OrderDAO();
-            System.out.println(session.getAttribute("NAME"));
+            ProductDAO pDao = new ProductDAO();
+            SubProductDAO sDao = new SubProductDAO();
+            ArrayList<String> list = new ArrayList();
             String lastID = dao.findByLastOrderID((String) session.getAttribute("ID_ACCOUNT"));
-            System.out.println();
-            
             if (lastID == null) {
                 orderId += 1; //OD-TuongNT-1
             } else {
@@ -64,14 +66,21 @@ public class CheckOutServlet extends HttpServlet {
                 for (String productID : shoppingCart.getShoppingCart().keySet()) {
                     int quantity = shoppingCart.getShoppingCart().get(productID);
                     String detailID = (orderId + "-" + count);
+                    list.add(productID);
                     dao.createOrderDetail(detailID, orderId, quantity, productID);
                     count++;
                 }
+                String listString = "";
+                for (String string : list) {
+                    listString += string + "-";
+                }
+                SubProductDTO sDto = new SubProductDTO(listString);
+                sDao.createSubProduct(sDto);
             }
             shoppingCart.resetCart();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+        } finally {
         }
     }
 

@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import thaidq.dto.CloneProductDTO;
 import thaidq.dto.HistoryDTO;
 import thaidq.dto.ProductDTO;
 import thaidq.dto.ProductTopDTO;
@@ -421,6 +422,57 @@ public class ProductDAO implements Serializable {
                 String quantity = rs.getString("Quantity");
                 String image = rs.getString("Image");
                 dto = new ProductDTO(id, name, price, quantity, image.substring(21));
+            }
+        } finally {
+            closeConnection();
+        }
+        return dto;
+    }
+    
+    public String getProductName(String Id) throws Exception {
+        String productName = "";
+        try {
+            String sql = "Select Name From tblProduct Where ProductID = ?";
+            conn = DBConnection.getConnection();
+            preStm = conn.prepareStatement(sql);
+            preStm.setString(1, Id);
+            rs = preStm.executeQuery();
+            if (rs.next()) {
+                productName = rs.getString("Name");
+            }
+        } finally {
+            closeConnection();
+        }
+        return productName;
+    }
+    
+    public CloneProductDTO getSuggestProduct(String productIdInput) throws Exception {
+        conn = null;
+        preStm = null;
+        rs = null;
+        CloneProductDTO dto = null;
+        try {
+            conn = DBConnection.getConnection();
+            if (conn != null) {
+                String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
+                        + "From tblProduct \n"
+                        + "Where Status = ? and Quantity > 0 and ProductID = ?\n";
+                preStm = conn.prepareStatement(sql);
+                preStm.setString(1, "Active");
+                preStm.setString(2, productIdInput);
+                rs = preStm.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString(1);
+                    String name = rs.getString(2);
+                    String quantity = rs.getString(3);
+                    String description = rs.getString(4);
+                    String cate = rs.getString(5);
+                    String price = rs.getString(6);
+                    String date = rs.getString(7);
+                    String status = rs.getString(8);
+                    String image = rs.getString(9);
+                    dto = new CloneProductDTO(id, name, quantity, description, cate, price, status, date, image.substring(21));
+                }
             }
         } finally {
             closeConnection();

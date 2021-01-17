@@ -8,6 +8,9 @@
 var modal = document.getElementById("model-add");
 var btn = document.getElementById("open-modal");
 var span = document.getElementsByClassName("close")[0];
+var popupJs = document.getElementById("popup-js");
+var popup = document.getElementById("myPopup");
+
 btn.onclick = function () {
     modal.style.display = "block";
 };
@@ -20,5 +23,11 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 };
+
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+
 
 

@@ -169,7 +169,7 @@ public class ProductDTO {
 
     @Override
     public String toString() {
-        return "ProductDTO{" + "productId=" + productId + ", productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", status=" + status + ", date=" + date + ", image=" + image + ", sort=" + sort + ", quantityCart=" + quantityCart + '}';
+        return "ProductDTO{" + "productId=" + productId + ", productName=" + productName + ", quantity=" + quantity + ", description=" + description + ", cateID=" + cateID + ", price=" + price + ", status=" + status + ", date=" + date + ", image=" + image + ", sort=" + sort + ", quantityCart=" + quantityCart + '}' + "\n";
     }
 
     

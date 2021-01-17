@@ -6,7 +6,6 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,9 +21,9 @@ import thaidq.dto.AccountDTO;
  */
 public class LoginServlet extends HttpServlet {
 
-    
     private final String INVALID_PAGE = "invalid.jsp";
     private final String HOME_PAGE = "ProductServlet";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

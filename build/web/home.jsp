@@ -6,6 +6,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="thaidq.dto.ProductDTO"%>
 <%@page import="thaidq.dto.ProductTopDTO" %>
+<%@page import="thaidq.dto.CloneProductDTO" %>
+<%@page import="thaidq.dto.OrderDTO" %>
 <%@page import="java.util.List"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
@@ -71,6 +73,72 @@
                     <a href="MainServlet?btnAction=ViewCart"><i class="fa fa-shopping-cart"></i>View </a>
                 </c:if>
             </div>
+            <c:if test="${accountRole != "ADMIN"}">
+                <div class="home-popup" onclick="myFunction()">
+                    <i class="fa fa-globe-asia"></i>
+                    <%
+                            List<CloneProductDTO> topXX =  (List<CloneProductDTO>) request.getAttribute("FINAL");
+                            if (topXX != null){
+                                if(topXX.size() > 0) {
+                    %>
+                    <span class="popup-noti">!</span>
+
+                    <div class="popup-controller" id="myPopup">
+                        <%
+                            List<CloneProductDTO> topX =  (List<CloneProductDTO>) request.getAttribute("FINAL");
+                            if (topX != null){
+                                if(topX.size() > 0) {
+                        %>
+                        <div class="popupDiv" >
+                            <%
+                        for (int i = 0; i < topX.size(); i++) {
+                                CloneProductDTO dtosX = topX.get(i);
+                            %>
+                            <div class="popup-container">
+                                <div class="popup-img" style="padding: 20px">
+                                    <img style="width: 125px" src="<%= dtosX.getImage()%>"/>
+                                </div>
+                                <div class="popup-content">
+                                    <p id="info-name" class="home-item-info">Name: <%= dtosX.getProductName()%></p>
+                                    <div class="description">
+                                        <p id="info-des" class="home-item-info ">Description: <%= dtosX.getDescription()%></p>
+                                        <span class="tooltip-description"><%= dtosX.getDescription()%></span>
+                                    </div>
+                                    <p id="info-price" class="home-item-info">Price: <%= dtosX.getPrice()%></p>
+                                    <div class="date">
+                                        <p class="home-item-info">Create date: <%= dtosX.getDate()%></p>
+                                        <span class="tooltip-date"><%= dtosX.getDate()%></span>
+                                    </div>
+                                    <p id="info-cate" class="home-item-info">Category: <%= dtosX.getCateID()%></p>
+                                </div>
+                                <div class="popup-add">
+                                    <form action="MainServlet" method="post">
+                                        <input style="display: none" type="text" name="txtProductId" value="<%= dtosX.getProductId()%>"/>
+                                        <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
+                                    </form>
+                                </div>
+                            </div>
+                            <%
+                                    }
+                            %>
+                        </div>
+                        <%          
+                            } else {
+                        %>
+                        <%
+                                }
+                            }
+                        %>
+                    </div>
+                    <%          
+                            } else {
+                    %>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+            </c:if>
             <div class="home-login">
                 <div class="home-welcome">
                     <c:if test="${not empty accountRole}">
@@ -104,9 +172,12 @@
 
         </div>
         <div class="home-container">
+
             <div class="home-wrapper">
                 <c:if test="${accountRole != "ADMIN"}">
+
                     <h1>Top 3 Like Product</h1>
+                    <%--<c:out value="${sessionScope.FINAL}"/>--%>
                     <%
                         List<ProductTopDTO> top =  (List<ProductTopDTO>) request.getAttribute("TOP_3_PRODUCT");
                         if (top != null){
@@ -162,7 +233,6 @@
                 </c:if>
             </div>
             <h1 style="text-align: center">All Product</h1>
-
             <div class="home-wrapper">
                 <%
                     List<ProductDTO> result = (List<ProductDTO>) request.getAttribute("ALL_PRODUCT");

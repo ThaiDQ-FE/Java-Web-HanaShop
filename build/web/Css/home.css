@@ -37,7 +37,7 @@ body{
     cursor: pointer;
 }
 .home-search{
-    width: 55%;
+    width: 50%;
     height: 100%;
     position: relative;
     text-align: center;
@@ -69,7 +69,7 @@ body{
 }
 .search-button{
     position: absolute;
-    right: 170px;
+    right: 130px;
     top: 8px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -105,14 +105,98 @@ body{
 .home-cart{
     width: 10%;
     height: 100%;
-    margin-top: 12px;
-    font-size: 26px;
+    font-size: 18px;
+    position: relative;
 }
 .home-cart a{
     color: black;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translateY(-50%);
 }
 .home-car:hover a{
     color: #888
+}
+/**/
+.home-popup{
+    width: 5%;
+    height: 100%;
+    margin-top: 12px;
+    font-size: 22px;
+    position: relative;
+    display: inline-block;
+    user-select: none;
+}
+.home-popup i:hover{
+    cursor: pointer;
+}
+.home-popup .popup-controller{
+    display: none;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    left: -495%;
+    top: 60%;
+    margin-left: -80px;
+}
+.home-popup .popup-controller:after{
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 12%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+}
+
+.home-popup .show {
+    display: block;
+    animation: fadeIn 1s;
+    height: auto;
+    max-height: 350px;
+}
+.popupDiv{
+    height: 180px;
+    overflow-y: scroll;
+}
+.popup-container{
+    display: flex;
+    border: 4px double #888;
+    font-size: 18px;
+}
+.popup-add{
+    padding: 65px 15px;
+}
+.popup-noti{
+    position: absolute;
+    top: -5px;
+    right: 65%;
+    padding: 1px 5px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+}
+.popup-noti-cart{
+    position: absolute;
+    top: 8px;
+    left: 13%;
+    padding: 1px 5px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
 }
 /**/
 .home-login{
