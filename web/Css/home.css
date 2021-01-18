@@ -140,9 +140,13 @@ body{
     padding: 8px;
     position: absolute;
     z-index: 1;
-    left: -495%;
+    left: -652%;
     top: 60%;
     margin-left: -80px;
+}
+.popup-content{
+    width: auto;
+    max-width: 380px;
 }
 .home-popup .popup-controller:after{
     content: "";
@@ -197,6 +201,43 @@ body{
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:1 ;}
+}
+
+.popup-history{
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.popup-history .popup-Div{
+    display: none;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    top: 180%;
+    right: -120%;
+    margin-left: -80px;
+}
+.popup-history .popup-Div:after{
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+}
+
+.popup-history .showx{
+    display: block;
+    animation: fadeIn 1s;
 }
 /**/
 .home-login{

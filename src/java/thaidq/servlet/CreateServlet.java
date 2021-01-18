@@ -7,11 +7,7 @@ package thaidq.servlet;
 
 import thaidq.dao.ProductDAO;
 import thaidq.dto.ProductDTO;
-import java.io.*;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -20,7 +16,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import thaidq.utils.FileUpload;
 
 /**
@@ -60,7 +55,6 @@ public class CreateServlet extends HttpServlet {
         String file = FileUpload.uploadFile(request,"txtFile");
         ProductDTO dto = new ProductDTO(name, quantity, description, cate, price, status, date, file);
         ProductDAO dao = new ProductDAO();
-        System.out.println(dto.toString());
         try {
             dao.createProduct(dto);
 

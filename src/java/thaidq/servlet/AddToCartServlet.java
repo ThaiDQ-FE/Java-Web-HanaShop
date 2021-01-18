@@ -6,7 +6,6 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -19,7 +18,6 @@ import thaidq.dao.ProductDAO;
 import thaidq.dao.SubProductDAO;
 import thaidq.dto.CartDTO;
 import thaidq.dto.CloneProductDTO;
-import thaidq.dto.ProductDTO;
 
 /**
  *
@@ -40,43 +38,42 @@ public class AddToCartServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            AccountDAO dao = new AccountDAO();
-            SubProductDAO sDao = new SubProductDAO();
-            ArrayList list = new ArrayList();
-            ProductDAO pDao = new ProductDAO();
-            List<CloneProductDTO> listDto = new ArrayList<>();
-            String id = request.getParameter("txtProductId");
-            String accountid = request.getParameter("txtAccountID");
-            String string = sDao.getSubProduct(id);
-            System.out.println(string);
-            if (string != null) {
-                String[] splits = string.split("-");
-                for (String item : splits) {
-                    list.add(item);
-                }
-                System.out.println(list.isEmpty());
-                for (Object object : list) {
-//                System.out.println(object);
-//                System.out.println(pDao.getSuggestProduct((String) object));
-                    if (object != "") {
-                        listDto.add(pDao.getSuggestProduct((String) object));
-                    }
-                }
-                System.out.println(listDto);
-            } else {
-                System.out.println("null");
-            }
-
-            String name = dao.getFullname(accountid);
             HttpSession session = request.getSession();
-            CartDTO shoppingCart = (CartDTO) session.getAttribute("cart");
-            if (shoppingCart == null) {
-                shoppingCart = new CartDTO(name);
+            if (session.getAttribute("ROLE") == null) {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            } else {
+                AccountDAO dao = new AccountDAO();
+                SubProductDAO sDao = new SubProductDAO();
+                ArrayList list = new ArrayList();
+                ProductDAO pDao = new ProductDAO();
+                List<CloneProductDTO> listDto = new ArrayList<>();
+                String id = request.getParameter("txtProductId");
+                String accountid = request.getParameter("txtAccountID");
+                CartDTO shoppingCart = (CartDTO) session.getAttribute("cart");
+                String string = sDao.getSubProduct(id);
+                if (string != null) {
+                    String[] splits = string.split("-");
+                    for (String item : splits) {
+                        list.add(item);
+                    }
+                    list.remove(id);
+                    for (Object object : list) {
+                        if (object != "") {
+                            listDto.add(pDao.getSuggestProduct((String) object));
+                        }
+                    }
+                } else {
+                }
+
+                String name = dao.getFullname(accountid);
+                if (shoppingCart == null) {
+                    shoppingCart = new CartDTO(name);
+                }
+                shoppingCart.addToCart(id);
+                session.setAttribute("cart", shoppingCart);
+                session.setAttribute("NAME", name);
+                request.setAttribute("FINAL", listDto);
             }
-            shoppingCart.addToCart(id);
-            session.setAttribute("cart", shoppingCart);
-            session.setAttribute("NAME", name);
-            request.setAttribute("FINAL", listDto);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

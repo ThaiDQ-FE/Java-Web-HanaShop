@@ -68,6 +68,10 @@
         <servlet-name>CheckOutServlet</servlet-name>
         <servlet-class>thaidq.servlet.CheckOutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <servlet-class>thaidq.servlet.OrderHistoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/MainServlet</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>CheckOutServlet</servlet-name>
         <url-pattern>/CheckOutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderHistoryServlet</servlet-name>
+        <url-pattern>/OrderHistoryServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

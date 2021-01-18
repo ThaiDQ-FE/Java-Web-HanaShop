@@ -6,9 +6,7 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,22 +39,20 @@ public class CheckOutServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             CartDTO shoppingCart = (CartDTO) session.getAttribute("cart");
-
             String orderId = "OD";
-
             int total = shoppingCart.getTotal();
             String date = request.getParameter("txtDate");
             String status = "waiting";
-
             orderId += "-" + session.getAttribute("NAME") + "-";
-
+            System.out.println(orderId);
             OrderDAO dao = new OrderDAO();
-            ProductDAO pDao = new ProductDAO();
             SubProductDAO sDao = new SubProductDAO();
+            ProductDAO pDao = new ProductDAO();
             ArrayList<String> list = new ArrayList();
             String lastID = dao.findByLastOrderID((String) session.getAttribute("ID_ACCOUNT"));
+            System.out.println(lastID);
             if (lastID == null) {
-                orderId += 1; //OD-TuongNT-1
+                orderId += 1;
             } else {
                 String[] tmp = lastID.split("-");
                 orderId += (Integer.parseInt(tmp[2]) + 1);
@@ -66,8 +62,9 @@ public class CheckOutServlet extends HttpServlet {
                 for (String productID : shoppingCart.getShoppingCart().keySet()) {
                     int quantity = shoppingCart.getShoppingCart().get(productID);
                     String detailID = (orderId + "-" + count);
+                    String name = pDao.getProductName(productID);
                     list.add(productID);
-                    dao.createOrderDetail(detailID, orderId, quantity, productID);
+                    dao.createOrderDetail(detailID, orderId, quantity, productID, name);
                     count++;
                 }
                 String listString = "";
@@ -81,6 +78,7 @@ public class CheckOutServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            request.getRequestDispatcher("ProductServlet").forward(request, response);
         }
     }
 

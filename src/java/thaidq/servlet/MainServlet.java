@@ -6,7 +6,6 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +38,7 @@ public class MainServlet extends HttpServlet {
     private static final String VIEW_CART = "ViewCartServlet";
     private static final String REMOVE_ITEM_IN_CART = "RemoveItemInCartServlet";
     private static final String UPDATE_ITEM_IN_CART = "UpdateQuantityInCartServlet";
+    private static final String ORDER_HISTORY = "OrderHistoryServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,6 +85,8 @@ public class MainServlet extends HttpServlet {
                 url = REMOVE_ITEM_IN_CART;
             }else if (action.equals("Update !")) {
                 url = UPDATE_ITEM_IN_CART;
+            }else if (action.equals("Order History")) {
+                url = ORDER_HISTORY;
             }
         } catch (Exception e) {
             e.printStackTrace();

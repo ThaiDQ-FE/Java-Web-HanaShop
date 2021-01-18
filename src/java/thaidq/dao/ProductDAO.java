@@ -139,11 +139,12 @@ public class ProductDAO implements Serializable {
             if (conn != null) {
                 String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
-                        + "Where Name Like ? \n"
+                        + "Where Name Like ? and Quantity > 0 and Status = ? \n"
                         + "order by DateOfCreate desc \n"
                         + "OFFSET " + ((Integer.parseInt(page) - 1) * 20) + "ROWS FETCH NEXT 20 ROWS ONLY";
                 preStm = conn.prepareStatement(sql);
                 preStm.setString(1, "%" + searchValue + "%");
+                preStm.setString(2, "Active");
                 rs = preStm.executeQuery();
                 while (rs.next()) {
                     if (list == null) {
@@ -178,9 +179,10 @@ public class ProductDAO implements Serializable {
             if (conn != null) {
                 String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
-                        + "Where Price Like ?";
+                        + "Where Price Like ? and Quantity > 0 and Status = ?";
                 preStm = conn.prepareStatement(sql);
                 preStm.setString(1, "%" + searchValue + "%");
+                preStm.setString(2, "Active");
                 rs = preStm.executeQuery();
                 while (rs.next()) {
                     if (list == null) {
@@ -215,9 +217,10 @@ public class ProductDAO implements Serializable {
             if (conn != null) {
                 String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
-                        + "Where Category Like ?";
+                        + "Where Category Like ? and Quantity > 0 and Status = ?";
                 preStm = conn.prepareStatement(sql);
                 preStm.setString(1, "%" + searchValue + "%");
+                preStm.setString(2, "Active");
                 rs = preStm.executeQuery();
                 while (rs.next()) {
                     if (list == null) {
@@ -428,7 +431,7 @@ public class ProductDAO implements Serializable {
         }
         return dto;
     }
-    
+
     public String getProductName(String Id) throws Exception {
         String productName = "";
         try {
@@ -445,7 +448,7 @@ public class ProductDAO implements Serializable {
         }
         return productName;
     }
-    
+
     public CloneProductDTO getSuggestProduct(String productIdInput) throws Exception {
         conn = null;
         preStm = null;

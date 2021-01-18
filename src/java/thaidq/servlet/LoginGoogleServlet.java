@@ -6,7 +6,6 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -53,6 +52,8 @@ public class LoginGoogleServlet extends HttpServlet {
                 request.setAttribute("name", googlePojo.getName());
                 HttpSession session = request.getSession();
                 session.setAttribute("GOOGLE", googlePojo.getName());
+                session.setAttribute("ID_ACCOUNT", dao.getAccountId(googlePojo.getId()));
+                session.setAttribute("ACCOUNT_ID", googlePojo.getId());
                 session.setAttribute("ROLE", "GOOGLE");
             } catch (Exception e) {
                 e.printStackTrace();

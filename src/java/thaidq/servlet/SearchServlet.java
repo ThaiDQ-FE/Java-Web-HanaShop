@@ -6,7 +6,6 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -59,15 +58,12 @@ public class SearchServlet extends HttpServlet {
                 request.setAttribute("SEARCH_RESULT", dto);
                 request.setAttribute("SEARCH_RESULT_PAGINATION", totalPage);
                 request.setAttribute("SEARCH_RESULT_CURRENT_PAGE", page);
-                System.out.println(dto);
             } else if (searchOption.equals("Price")) {
                 List<ProductDTO> dto = dao.searchProductByPrice(searchValue);
                 request.setAttribute("SEARCH_RESULT", dto);
-                System.out.println(dto);
             } else {
                 List<ProductDTO> dto = dao.searchProductByCategory(searchValue);
                 request.setAttribute("SEARCH_RESULT", dto);
-                System.out.println(dto);
             }
         } catch (Exception e) {
             e.printStackTrace();

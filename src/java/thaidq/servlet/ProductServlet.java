@@ -6,19 +6,13 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import thaidq.dao.AccountDAO;
-import thaidq.dao.EmotionDAO;
-import thaidq.dao.OrderDAO;
 import thaidq.dao.ProductDAO;
-import thaidq.dto.EmotionDTO;
-import thaidq.dto.OrderDTO;
 import thaidq.dto.ProductDTO;
 import thaidq.dto.ProductTopDTO;
 

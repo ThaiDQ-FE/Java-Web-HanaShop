@@ -69,7 +69,7 @@ public class CartDTO implements Serializable{
         ProductDAO dao = new ProductDAO();
         for (String id : this.shoppingCart.keySet()) {
             int quantity = this.shoppingCart.get(id);
-            int price = Integer.parseInt(dao.findByPK(id).getPrice());
+            int price = Integer.parseInt(dao.findByPK(id).getQuantity());
             result += quantity * price;
         }
         return result;

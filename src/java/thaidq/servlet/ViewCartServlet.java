@@ -6,7 +6,6 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -38,24 +37,29 @@ public class ViewCartServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             HttpSession session = request.getSession();
-            CartDTO shoppingCart = (CartDTO) session.getAttribute("cart");
-            List<ProductDTO> listDto = new ArrayList<>();
-            ProductDAO dao = new ProductDAO();
-            for (String id : shoppingCart.getShoppingCart().keySet()) {
-                ProductDTO dto = dao.findByPK(id);
-                ProductDTO dtoView = new ProductDTO();
-                dtoView.setProductId(id);
-                dtoView.setProductName(dto.getProductName());
-                dtoView.setQuantityCart(shoppingCart.getShoppingCart().get(id));
-                dtoView.setPrice(dto.getPrice());
-                dtoView.setImage(dto.getImage());
-                listDto.add(dtoView);
+            if (session.getAttribute("ROLE") == null) {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            } else {
+                CartDTO shoppingCart = (CartDTO) session.getAttribute("cart");
+                List<ProductDTO> listDto = new ArrayList<>();
+                ProductDAO dao = new ProductDAO();
+                for (String id : shoppingCart.getShoppingCart().keySet()) {
+                    ProductDTO dto = dao.findByPK(id);
+                    ProductDTO dtoView = new ProductDTO();
+                    dtoView.setProductId(id);
+                    dtoView.setProductName(dto.getProductName());
+                    dtoView.setPrice(dto.getQuantity());
+                    dtoView.setQuantityCart(shoppingCart.getShoppingCart().get(id));
+                    dtoView.setImage(dto.getImage());
+                    listDto.add(dtoView);
+                }
+                System.out.println(listDto);
+                request.setAttribute("INFO", listDto);
             }
-            System.out.println(listDto);
-            request.setAttribute("INFO", listDto);
+
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             request.getRequestDispatcher("view.jsp").forward(request, response);
         }
     }

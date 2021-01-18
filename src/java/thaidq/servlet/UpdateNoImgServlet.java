@@ -6,7 +6,6 @@
 package thaidq.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import thaidq.dao.ProductDAO;
 import thaidq.dto.HistoryDTO;
 import thaidq.dto.ProductDTO;
-import thaidq.utils.FileUpload;
 
 /**
  *
@@ -66,7 +64,6 @@ public class UpdateNoImgServlet extends HttpServlet {
             RequestDispatcher dis = request.getRequestDispatcher("ProductServlet");
             dis.forward(request, response);
         }
-        System.out.println(dto);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

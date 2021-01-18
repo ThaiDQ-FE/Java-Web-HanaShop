@@ -104,7 +104,7 @@
                                         <p id="info-des" class="home-item-info ">Description: <%= dtosX.getDescription()%></p>
                                         <span class="tooltip-description"><%= dtosX.getDescription()%></span>
                                     </div>
-                                    <p id="info-price" class="home-item-info">Price: <%= dtosX.getPrice()%></p>
+                                    <p id="info-price" class="home-item-info">Price: <%= dtosX.getPrice()%> $</p>
                                     <div class="date">
                                         <p class="home-item-info">Create date: <%= dtosX.getDate()%></p>
                                         <span class="tooltip-date"><%= dtosX.getDate()%></span>
@@ -158,9 +158,23 @@
                 </div>
                 <div class="home-logout">
                     <c:if test="${not empty accountRole}">
-                        <form action="MainServlet">
-                            <input class="logout-button" id="logout" type="submit" name="btnAction" value="Logout"/>
-                        </form>
+                        <div class="popup-history" onclick="popupHistory()">
+                            <i class="fa fa-level-down-alt"></i>
+                            <div class="popup-Div" id="popup-Div">
+                                <c:if test="${not empty accountRole}">
+                                    <c:if test="${accountRole != "ADMIN"}">
+                                        <form action="MainServlet">
+                                            <input class="logout-button" id="logout" type="submit" name="btnAction" value="Order History"/>
+                                        </form>
+                                    </c:if>
+                                </c:if>
+                                <c:if test="${not empty accountRole}">
+                                    <form action="MainServlet">
+                                        <input class="logout-button" id="logout" type="submit" name="btnAction" value="Logout"/>
+                                    </form>
+                                </c:if>
+                            </div>
+                        </div>
                     </c:if>
                 </div>
             </div>
@@ -177,7 +191,6 @@
                 <c:if test="${accountRole != "ADMIN"}">
 
                     <h1>Top 3 Like Product</h1>
-                    <%--<c:out value="${sessionScope.FINAL}"/>--%>
                     <%
                         List<ProductTopDTO> top =  (List<ProductTopDTO>) request.getAttribute("TOP_3_PRODUCT");
                         if (top != null){
@@ -204,13 +217,34 @@
                                                     <p id="info-des" class="home-item-info ">Description: <%= dtos.getDescription()%></p>
                                                     <span class="tooltip-description"><%= dtos.getDescription()%></span>
                                                 </div>
-                                                <p id="info-price" class="home-item-info">Price: <%= dtos.getPrice()%></p>
+                                                <p id="info-price" class="home-item-info">Price: <%= dtos.getPrice()%> $</p>
                                                 <div class="date">
                                                     <p class="home-item-info">Create date: <%= dtos.getDate()%></p>
                                                     <span class="tooltip-date"><%= dtos.getDate()%></span>
                                                 </div>
                                                 <p id="info-cate" class="home-item-info">Category: <%= dtos.getCateID()%></p>
                                             </div>
+                                            <c:if test="${accountRole == "ADMIN"}">
+                                                <div class="home-back-button">
+                                                    <form action="MainServlet" method="post">
+                                                        <input style="display: none" type="text" name="txtOwner"  value="${sessionScope.ACCOUNT}"/>
+                                                        <input style="display: none" type="text" name="txtCheckId" value="<%= dtos.getProductId()%>"/>
+                                                        <input onclick="return confirm('Are you sure you want to delete this Product!?')" class="button-delete" type="submit" name="btnAction" value="Delete"/>
+                                                        <input class="button-info" type="submit" name="btnAction" value="Info"/>
+                                                    </form>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${accountRole == "USER" || accountRole == "GOOGLE" || accountRole == null}">
+                                                <div class="home-back-button">
+                                                    <form action="MainServlet" method="post">
+                                                        <input style="display: none" type="text" name="txtAccountID"  value="${sessionScope.ACCOUNT_ID}"/>
+                                                        <input style="display: none" type="text" name="txtProductId" value="<%= dtos.getProductId()%>"/>
+                                                        <input class="button-Like" type="submit" name="btnAction" value="Like"/>
+                                                        <input class="button-Dislike" type="submit" name="btnAction" value="Dislike"/>
+                                                        <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
+                                                    </form>
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
@@ -259,7 +293,7 @@
                                                 <p id="info-des" class="home-item-info ">Description: <%= dto.getDescription()%></p>
                                                 <span class="tooltip-description"><%= dto.getDescription()%></span>
                                             </div>
-                                            <p id="info-price" class="home-item-info">Price: <%= dto.getPrice()%></p>
+                                            <p id="info-price" class="home-item-info">Price: <%= dto.getPrice()%> $</p>
                                             <div class="date">
                                                 <p class="home-item-info">Create date: <%= dto.getDate()%></p>
                                                 <span class="tooltip-date"><%= dto.getDate()%></span>
@@ -276,7 +310,7 @@
                                                 </form>
                                             </div>
                                         </c:if>
-                                        <c:if test="${accountRole == "USER" || accountRole == "GOOGLE"}">
+                                        <c:if test="${accountRole == "USER" || accountRole == "GOOGLE" || accountRole == null}">
                                             <div class="home-back-button">
                                                 <form action="MainServlet" method="post">
                                                     <input style="display: none" type="text" name="txtAccountID"  value="${sessionScope.ACCOUNT_ID}"/>

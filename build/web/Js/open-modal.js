@@ -24,10 +24,16 @@ window.onclick = function (event) {
     }
 };
 
+function popupHistory(){
+    var popupHistory = document.getElementById("popup-Div");
+    popupHistory.classList.toggle("showx");
+}
+
 function myFunction() {
   var popup = document.getElementById("myPopup");
   popup.classList.toggle("show");
-}
+};
+
 
 
 
