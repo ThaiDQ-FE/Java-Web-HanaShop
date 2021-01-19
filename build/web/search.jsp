@@ -6,6 +6,9 @@
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="thaidq.dto.ProductDTO"%>
+<%@page import="thaidq.dto.ProductTopDTO" %>
+<%@page import="thaidq.dto.CloneProductDTO" %>
+<%@page import="thaidq.dto.OrderDTO" %>
 <%@page import="java.util.List"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
@@ -40,11 +43,15 @@
                     </div>
                 </c:if>
                 <c:if test="${accountRole != "ADMIN"}">
-                    <div class="nothing"></div>
+                    <div class="nothing" style="text-align: center">
+                        <a href="ProductServlet"><img src="Images/sadako-hrthftuufdg4.gif" style="width: 100px; height: 100%;"/></a>
+                    </div>
                 </c:if>
             </c:if>
             <c:if test="${empty accountRole}">
-                <div class="nothing"></div>
+                <div class="nothing" style="text-align: center">
+                    <a href="ProductServlet"><img src="Images/sadako-hrthftuufdg4.gif" style="width: 100px; height: 100%;"/></a>
+                </div>
             </c:if>
             <div class="home-search">
                 <form action="MainServlet" method="POST" class="form-search">
@@ -66,8 +73,76 @@
                 </div>
             </div>
             <div class="home-cart">
-                <p>đây là cart</p>
+                <c:if test="${accountRole != "ADMIN"}">
+                    <a href="MainServlet?btnAction=ViewCart"><i class="fa fa-shopping-cart"></i>View </a>
+                </c:if>
             </div>
+            <c:if test="${accountRole != "ADMIN"}">
+                <div class="home-popup" onclick="myFunction()">
+                    <i class="fa fa-globe-asia"></i>
+                    <%
+                            List<CloneProductDTO> topXX =  (List<CloneProductDTO>) request.getAttribute("FINAL");
+                            if (topXX != null){
+                                if(topXX.size() > 0) {
+                    %>
+                    <span class="popup-noti">!</span>
+
+                    <div class="popup-controller" id="myPopup">
+                        <%
+                            List<CloneProductDTO> topX =  (List<CloneProductDTO>) request.getAttribute("FINAL");
+                            if (topX != null){
+                                if(topX.size() > 0) {
+                        %>
+                        <div class="popupDiv" >
+                            <%
+                        for (int i = 0; i < topX.size(); i++) {
+                                CloneProductDTO dtosX = topX.get(i);
+                            %>
+                            <div class="popup-container">
+                                <div class="popup-img" style="padding: 20px">
+                                    <img style="width: 125px" src="<%= dtosX.getImage()%>"/>
+                                </div>
+                                <div class="popup-content">
+                                    <p id="info-name" class="home-item-info">Name: <%= dtosX.getProductName()%></p>
+                                    <div class="description">
+                                        <p id="info-des" class="home-item-info ">Description: <%= dtosX.getDescription()%></p>
+                                        <span class="tooltip-description"><%= dtosX.getDescription()%></span>
+                                    </div>
+                                    <p id="info-price" class="home-item-info">Price: <%= dtosX.getPrice()%> $</p>
+                                    <div class="date">
+                                        <p class="home-item-info">Create date: <%= dtosX.getDate()%></p>
+                                        <span class="tooltip-date"><%= dtosX.getDate()%></span>
+                                    </div>
+                                    <p id="info-cate" class="home-item-info">Category: <%= dtosX.getCateID()%></p>
+                                </div>
+                                <div class="popup-add">
+                                    <form action="MainServlet" method="post">
+                                        <input style="display: none" type="text" name="txtProductId" value="<%= dtosX.getProductId()%>"/>
+                                        <input class="button-Add" type="submit" name="btnAction" value="Add Cart"/>
+                                    </form>
+                                </div>
+                            </div>
+                            <%
+                                    }
+                            %>
+                        </div>
+                        <%          
+                            } else {
+                        %>
+                        <%
+                                }
+                            }
+                        %>
+                    </div>
+                    <%          
+                            } else {
+                    %>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+            </c:if>
             <div class="home-login">
                 <div class="home-welcome">
                     <c:if test="${not empty accountRole}">
@@ -87,9 +162,23 @@
                 </div>
                 <div class="home-logout">
                     <c:if test="${not empty accountRole}">
-                        <form action="MainServlet">
-                            <input class="logout-button" id="logout" type="submit" name="btnAction" value="Logout"/>
-                        </form>
+                        <div class="popup-history" onclick="popupHistory()">
+                            <i class="fa fa-level-down-alt"></i>
+                            <div class="popup-Div" id="popup-Div">
+                                <c:if test="${not empty accountRole}">
+                                    <c:if test="${accountRole != "ADMIN"}">
+                                        <form action="MainServlet">
+                                            <input class="logout-button" id="logout" type="submit" name="btnAction" value="Order History"/>
+                                        </form>
+                                    </c:if>
+                                </c:if>
+                                <c:if test="${not empty accountRole}">
+                                    <form action="MainServlet">
+                                        <input class="logout-button" id="logout" type="submit" name="btnAction" value="Logout"/>
+                                    </form>
+                                </c:if>
+                            </div>
+                        </div>
                     </c:if>
                 </div>
             </div>
@@ -211,19 +300,19 @@
                 <span class="close">&times;</span>
                 <form action="MainServlet" method="POST" enctype="multipart/form-data">
                     <label class="home-label">Meal name: </label>
-                    <input type="text" name="txtProductName"/><br>
+                    <input type="text" name="txtProductName" required/><br>
                     <label class="home-label">Quantity: </label>
-                    <input type="number" name="txtQuantity"/><br>
+                    <input type="number" name="txtQuantity" required/><br>
                     <label class="home-label">Description: </label>
-                    <input type="text" name="txtDescription"/><br>
+                    <input type="text" name="txtDescription" required/><br>
                     <label >Category: </label>
                     <select style="margin-top: 10px;" name="cboCate">
                         <option>Food</option>
                         <option>Drink</option>
                     </select><br>
                     <label class="home-label">Price: </label>
-                    <input type="number" name="txtPrice"/><br>
-                    <input type="file" name="txtFile" value="" onchange="loadFile(event)" style="width: 160px;margin-top: 10px"/><br>
+                    <input type="number" name="txtPrice" required/><br>
+                    <input type="file" name="txtFile" value="" onchange="loadFile(event)" style="width: 160px;margin-top: 10px" required/><br>
                     <img id="review-img" style="width: 100px"/><br>
                     <input style="margin-left: 50%;
                            transform: translateX(-50%);" type="submit" name="btnAction" value="Insert"/>

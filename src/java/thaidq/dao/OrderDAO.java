@@ -126,4 +126,72 @@ public class OrderDAO implements Serializable{
         }
         return list;
     }
+    
+    public List<OrderHistoryDTO> getListHistoryByName(String accountId, String name) throws Exception{
+        conn = null;
+        preStm = null;
+        rs = null;
+        List<OrderHistoryDTO> list = null;
+        try {
+            conn = DBConnection.getConnection();
+            if (conn != null) {
+                String sql = "select od.ProductName,  p.Price ,od.Quantity,o.DateOfCreate,p.Image \n"
+                        + "from tblOrder as o, tblOrderDetail as od , tblProduct as p \n"
+                        + "where AccountId = ? and o.OrdersID = od.OrdersId  and od.ProductID = p.ProductID and od.ProductName like ?";
+                preStm = conn.prepareStatement(sql);
+                preStm.setString(1, accountId);
+                preStm.setString(2, "%" + name + "%");
+                rs = preStm.executeQuery();
+                while (rs.next()) {
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    }
+                    String productName = rs.getString(1);
+                    String price = rs.getString(2);
+                    String quantity = rs.getString(3);
+                    String date = rs.getString(4);
+                    String image = rs.getString(5);
+                    OrderHistoryDTO dto = new OrderHistoryDTO(productName, price, quantity, date,image.substring(21));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            closeConnection();
+        }
+        return list;
+    }
+    
+    public List<OrderHistoryDTO> getListHistoryByDate(String accountId, String dateTime) throws Exception{
+        conn = null;
+        preStm = null;
+        rs = null;
+        List<OrderHistoryDTO> list = null;
+        try {
+            conn = DBConnection.getConnection();
+            if (conn != null) {
+                String sql = "select od.ProductName,  p.Price ,od.Quantity,o.DateOfCreate,p.Image \n"
+                        + "from tblOrder as o, tblOrderDetail as od , tblProduct as p \n"
+                        + "where AccountId = ? and o.OrdersID = od.OrdersId  and od.ProductID = p.ProductID and o.DateOfCreate like ?";
+                preStm = conn.prepareStatement(sql);
+                preStm.setString(1, accountId);
+                preStm.setString(2, "%" + dateTime + "%");
+                rs = preStm.executeQuery();
+                while (rs.next()) {
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    }
+                    String productName = rs.getString(1);
+                    String price = rs.getString(2);
+                    String quantity = rs.getString(3);
+                    String date = rs.getString(4);
+                    String image = rs.getString(5);
+                    OrderHistoryDTO dto = new OrderHistoryDTO(productName, price, quantity, date,image.substring(21));
+                    list.add(dto);
+                }
+            }
+        } finally {
+            closeConnection();
+        }
+        return list;
+    }
 }

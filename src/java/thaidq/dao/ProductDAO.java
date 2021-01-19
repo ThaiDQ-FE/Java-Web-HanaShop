@@ -7,12 +7,10 @@ package thaidq.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import thaidq.dto.CloneProductDTO;
 import thaidq.dto.HistoryDTO;
 import thaidq.dto.ProductDTO;
@@ -169,7 +167,7 @@ public class ProductDAO implements Serializable {
         return list;
     }
 
-    public List<ProductDTO> searchProductByPrice(String searchValue) throws Exception {
+    public List<ProductDTO> searchProductByPrice(int searchValue, String page) throws Exception {
         List<ProductDTO> list = null;
         conn = null;
         preStm = null;
@@ -179,9 +177,11 @@ public class ProductDAO implements Serializable {
             if (conn != null) {
                 String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
-                        + "Where Price Like ? and Quantity > 0 and Status = ?";
+                        + "Where Price between 0 and ? and Quantity > 0 and Status = ? \n"
+                        + "order by DateOfCreate desc \n"
+                        + "OFFSET " + ((Integer.parseInt(page) - 1) * 20) + "ROWS FETCH NEXT 20 ROWS ONLY";
                 preStm = conn.prepareStatement(sql);
-                preStm.setString(1, "%" + searchValue + "%");
+                preStm.setInt(1, searchValue);
                 preStm.setString(2, "Active");
                 rs = preStm.executeQuery();
                 while (rs.next()) {
@@ -207,7 +207,7 @@ public class ProductDAO implements Serializable {
         return list;
     }
 
-    public List<ProductDTO> searchProductByCategory(String searchValue) throws Exception {
+    public List<ProductDTO> searchProductByCategory(String searchValue, String page) throws Exception {
         List<ProductDTO> list = null;
         conn = null;
         preStm = null;
@@ -217,7 +217,9 @@ public class ProductDAO implements Serializable {
             if (conn != null) {
                 String sql = "Select ProductID, Name, Quantity, Description, Category, Price, DateOfCreate, Status, Image \n"
                         + "From tblProduct \n"
-                        + "Where Category Like ? and Quantity > 0 and Status = ?";
+                        + "Where Category Like ? and Quantity > 0 and Status = ? \n"
+                        + "order by DateOfCreate desc \n"
+                        + "OFFSET " + ((Integer.parseInt(page) - 1) * 20) + "ROWS FETCH NEXT 20 ROWS ONLY";
                 preStm = conn.prepareStatement(sql);
                 preStm.setString(1, "%" + searchValue + "%");
                 preStm.setString(2, "Active");
@@ -481,5 +483,24 @@ public class ProductDAO implements Serializable {
             closeConnection();
         }
         return dto;
+    }
+    
+    public String getQuantity(String productId) throws Exception {
+        String emotion = "";
+        try {
+            String sql = "SELECT Quantity \n"
+                    + "From tblProduct  \n"
+                    + "where ProductID = ?";
+            conn = DBConnection.getConnection();
+            preStm = conn.prepareStatement(sql);
+            preStm.setString(1, productId);
+            rs = preStm.executeQuery();
+            if (rs.next()) {
+                emotion = rs.getString("Quantity");
+            }
+        } finally {
+            closeConnection();
+        }
+        return emotion;
     }
 }

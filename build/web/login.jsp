@@ -3,7 +3,7 @@
     Created on : Jan 4, 2021, 2:34:57 PM
     Author     : thaid
 --%>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +19,7 @@
         <title>Login</title>
     </head>
     <body>
+        <c:set var="erorrLogin" value="${sessionScope.ERORR_LOGIN}"/>
         <div class="container">
             <div id="snowflakes" aria-hidden="true">
             </div>
@@ -29,10 +30,16 @@
                         <h1 class="login-title">HanaShop</h1>
                         <h3 class="login-welcome">Welcome to HanaShop</h3>
                         <form action="MainServlet" method="post">
+                            <c:if test="${erorrLogin == 'ERORR_LOGIN'}">
+                                <%
+                                    String error = (String) request.getAttribute("LOGIN_ERROR");
+                                %>
+                                <span style="color: red"><%= error%></span>
+                            </c:if>
                             <label class="login-label">Users name or Email</label>
-                            <input class="login-input username" type="text" name="txtUsernameOrEmail" />
+                            <input class="login-input username" type="text" name="txtUsernameOrEmail" required/>
                             <label class="login-label">Password</label>
-                            <input class="login-input password" type="password" name="txtPassword"/>
+                            <input class="login-input password" type="password" name="txtPassword" required/>
                             <label class="login-forgot">Forgot password?</label>
                             <input class="login-button" type="submit" value="Sign in" name="btnAction"/>
                         </form>

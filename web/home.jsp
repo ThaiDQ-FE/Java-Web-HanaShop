@@ -37,17 +37,21 @@
         <c:set var="accountGoogle" value="${sessionScope.GOOGLE}"/>
         <div class="home-nav">
             <c:if test="${not empty accountRole}">
-                <c:if test="${accountRole == "ADMIN"}">
+                <c:if test="${accountRole == "ADMIN"}" >
                     <div class="home-add">
                         <i id="open-modal" class="fa fa-plus-circle">Add more food/drink</i>
                     </div>
                 </c:if>
                 <c:if test="${accountRole != "ADMIN"}">
-                    <div class="nothing"></div>
+                    <div class="nothing" style="text-align: center">
+                        <a href="ProductServlet"><img src="Images/sadako-hrthftuufdg4.gif" style="width: 100px; height: 100%;"/></a>
+                    </div>
                 </c:if>
             </c:if>
             <c:if test="${empty accountRole}">
-                <div class="nothing"></div>
+                <div class="nothing" style="text-align: center">
+                    <a href="ProductServlet"><img src="Images/sadako-hrthftuufdg4.gif" style="width: 100px; height: 100%;"/></a>
+                </div>
             </c:if>
             <div class="home-search">
                 <form action="MainServlet" method="POST" class="form-search">
@@ -384,19 +388,19 @@
                 <span class="close">&times;</span>
                 <form action="MainServlet" method="POST" enctype="multipart/form-data">
                     <label class="home-label">Meal name: </label>
-                    <input type="text" name="txtProductName"/><br>
+                    <input type="text" name="txtProductName" required/><br>
                     <label class="home-label">Quantity: </label>
-                    <input type="number" name="txtQuantity"/><br>
+                    <input type="number" name="txtQuantity" required/><br>
                     <label class="home-label">Description: </label>
-                    <input type="text" name="txtDescription"/><br>
+                    <input type="text" name="txtDescription" required/><br>
                     <label >Category: </label>
                     <select style="margin-top: 10px;" name="cboCate">
                         <option>Food</option>
                         <option>Drink</option>
                     </select><br>
                     <label class="home-label">Price: </label>
-                    <input type="number" name="txtPrice"/><br>
-                    <input type="file" name="txtFile" value="" onchange="loadFile(event)" style="width: 160px;margin-top: 10px"/><br>
+                    <input type="number" name="txtPrice" required/><br>
+                    <input type="file" name="txtFile" value="" onchange="loadFile(event)" style="width: 160px;margin-top: 10px" required/><br>
                     <img id="review-img" style="width: 100px"/><br>
                     <input style="margin-left: 50%;
                            transform: translateX(-50%);" type="submit" name="btnAction" value="Insert"/>

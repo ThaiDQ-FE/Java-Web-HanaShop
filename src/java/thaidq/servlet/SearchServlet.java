@@ -46,25 +46,32 @@ public class SearchServlet extends HttpServlet {
         String url = SEARCH_PAGE;
         try {
             ProductDAO dao = new ProductDAO();
-            if (searchOption.equals("Name")) {
-                List<ProductDTO> dto = dao.searchProductByName(searchValue, page);
-                int totalRecord = dao.countProduct();
-                int totalPage = 1;
-                if (totalRecord % 20 == 0) {
-                    totalPage = totalRecord / 20;
-                } else {
-                    totalPage = (totalRecord / 20) + 1;
-                }
-                request.setAttribute("SEARCH_RESULT", dto);
-                request.setAttribute("SEARCH_RESULT_PAGINATION", totalPage);
-                request.setAttribute("SEARCH_RESULT_CURRENT_PAGE", page);
-            } else if (searchOption.equals("Price")) {
-                List<ProductDTO> dto = dao.searchProductByPrice(searchValue);
-                request.setAttribute("SEARCH_RESULT", dto);
+            int totalRecord = dao.countProduct();
+            int totalPage = 1;
+            if (totalRecord % 20 == 0) {
+                totalPage = totalRecord / 20;
             } else {
-                List<ProductDTO> dto = dao.searchProductByCategory(searchValue);
-                request.setAttribute("SEARCH_RESULT", dto);
+                totalPage = (totalRecord / 20) + 1;
             }
+            switch (searchOption) {
+                case "Name": {
+                    List<ProductDTO> dto = dao.searchProductByName(searchValue, page);
+                    request.setAttribute("SEARCH_RESULT", dto);
+                    break;
+                }
+                case "Price": {
+                    List<ProductDTO> dto = dao.searchProductByPrice(Integer.parseInt(searchValue), page);
+                    request.setAttribute("SEARCH_RESULT", dto);
+                    break;
+                }
+                default: {
+                    List<ProductDTO> dto = dao.searchProductByCategory(searchValue, page);
+                    request.setAttribute("SEARCH_RESULT", dto);
+                    break;
+                }
+            }
+            request.setAttribute("SEARCH_RESULT_PAGINATION", totalPage);
+            request.setAttribute("SEARCH_RESULT_CURRENT_PAGE", page);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

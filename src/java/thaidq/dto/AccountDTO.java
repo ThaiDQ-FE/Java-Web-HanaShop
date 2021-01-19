@@ -69,6 +69,11 @@ public class AccountDTO {
         this.Fullname = Fullname;
     }
 
+    @Override
+    public String toString() {
+        return "AccountDTO{" + "Id=" + Id + ", Username=" + Username + ", Password=" + Password + ", Role=" + Role + ", Fullname=" + Fullname + '}';
+    }
+
     
     
     

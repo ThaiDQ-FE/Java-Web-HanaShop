@@ -21,8 +21,9 @@ import thaidq.dto.AccountDTO;
  */
 public class LoginServlet extends HttpServlet {
 
-    private final String INVALID_PAGE = "invalid.jsp";
+    private final String LOGIN_PAGE = "login.jsp";
     private final String HOME_PAGE = "ProductServlet";
+    private final String MESSAGE = " does not exited! Please check agian!!";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,24 +37,25 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = INVALID_PAGE;
+        String url = LOGIN_PAGE;
         String username = request.getParameter("txtUsernameOrEmail");
         String password = request.getParameter("txtPassword");
+        HttpSession session = request.getSession();
         try {
             AccountDAO dao = new AccountDAO();
             AccountDTO dtoGet = dao.checkLogins(username, password);
-            String id = dao.getAccountId(dtoGet.getId());
-            String role = dao.checkLogin(username, password);
-            HttpSession session = request.getSession();
-            session.setAttribute("ROLE", role);
             if (dtoGet != null) {
                 url = HOME_PAGE;
+                String id = dao.getAccountId(dtoGet.getId());
+                String role = dao.checkLogin(username, password);
                 session.setAttribute("ACCOUNT", dtoGet.getFullname());
                 session.setAttribute("ACCOUNT_ID", dtoGet.getId());
                 session.setAttribute("ID_ACCOUNT", id);
+                session.setAttribute("ROLE", role);
             } else {
-                url = INVALID_PAGE;
-                request.setAttribute("LOGIN_ERROR", "Email or Passowrd is not correct");
+                url = LOGIN_PAGE;
+                session.setAttribute("ERORR_LOGIN", "ERORR_LOGIN");
+                request.setAttribute("LOGIN_ERROR", username + MESSAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();

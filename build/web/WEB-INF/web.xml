@@ -72,6 +72,10 @@
         <servlet-name>OrderHistoryServlet</servlet-name>
         <servlet-class>thaidq.servlet.OrderHistoryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchOrderHistoryServlet</servlet-name>
+        <servlet-class>thaidq.servlet.SearchOrderHistoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/MainServlet</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>OrderHistoryServlet</servlet-name>
         <url-pattern>/OrderHistoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchOrderHistoryServlet</servlet-name>
+        <url-pattern>/SearchOrderHistoryServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

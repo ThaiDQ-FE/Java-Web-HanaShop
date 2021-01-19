@@ -39,6 +39,7 @@ public class MainServlet extends HttpServlet {
     private static final String REMOVE_ITEM_IN_CART = "RemoveItemInCartServlet";
     private static final String UPDATE_ITEM_IN_CART = "UpdateQuantityInCartServlet";
     private static final String ORDER_HISTORY = "OrderHistoryServlet";
+    private static final String ORDER_SEARCH = "SearchOrderHistoryServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -87,6 +88,8 @@ public class MainServlet extends HttpServlet {
                 url = UPDATE_ITEM_IN_CART;
             }else if (action.equals("Order History")) {
                 url = ORDER_HISTORY;
+            }else if (action.equals("Search Order")) {
+                url = ORDER_SEARCH;
             }
         } catch (Exception e) {
             e.printStackTrace();
